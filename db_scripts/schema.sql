@@ -1,3 +1,4 @@
+
 CREATE Table person(
     id           SERIAL PRIMARY KEY,
     name       TEXT

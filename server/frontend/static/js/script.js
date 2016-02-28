@@ -24,3 +24,13 @@ function login() {
 	});
 	return false;
 }
+
+$(document).ready(function() {
+	$("#deadlines-list").on("click", function() {
+
+	});
+
+	$("#deadlines-cal").on("click", function() {
+		
+	})
+});

@@ -21,27 +21,35 @@
     <style type="text/css" id="holderjs-style"></style>
   </head>
 
-
-  <body>
-    
-        <div class="col-md-5"></div>
-        <div class="col-md-2">
-            <div class='logo-main' style='margin-top:50%;'>SUBMIT</div>
-
-            <form name="login" method="POST" onSubmit="return login()">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-addon glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <input type="text" class="form-control" name="username" placeholder="Username">
-                </div>
-                <div class="input-group input-group-lg">
-                    <span class="input-group-addon glyphicon glyphicon-lock" aria-hidden="true"></span>
-                    <input type="password" name="password" class="form-control" placeholder="Password">
-                </div>
-                <div class='error-div'></div>
-                <input type="submit" name="login-submit" value="Login" class='btn btn-primary btn-block'>
-            </form>
+  <body>    
+        <div class="row header">
+            <div class='col-md-2'>
+                <div class='logo-main'>SUBMIT</div>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-1">
+               Welcome, <span id="user-name-welcome"></span>
+            </div>
+            <div class="col-md-1">
+               <a href="/logout">Logout</a>
+            </div>
         </div>
-        
+        <div class="row">
+            <div class='col-md-2'>
+                <div id="courses-list"></div>
+            </div>
+            <div class="col-md-10">
+                <div style="text-align:right; font-size:25px;">
+                    <div class="btn-group" role="group">
+                      <button type="button" id="deadlines-list" class="btn btn-default"><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
+                      <button type="button" id="deadlines-cal" class="btn btn-default"><span class="glyphicon glyphicon glyphicon glyphicon-calendar" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+                <div id="deadlines-content">
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript

@@ -5,6 +5,7 @@ from cyclone_server.db.mixin import DatabaseMixin
 import cyclone
 import random
 
+
 class APIBase(cyclone.web.RequestHandler, DatabaseMixin):
 
     def get_config(self):

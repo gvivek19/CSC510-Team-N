@@ -1,0 +1,25 @@
+.input-group {
+	margin-top:2%;
+	margin-bottom:3%;
+}
+
+.button {
+	padding:2% 5% 2% 5%;
+	color:white;
+	margin:0px solid #a60000;
+	background:#a60000;
+}
+
+.logo-main {
+	letter-spacing: 5px;
+	font-size: 30px;
+	text-align: center;
+	margin-top:50%;
+}
+
+.error-div {
+	color:red;
+	width:100%;
+	text-align:center;
+	display:none;
+}

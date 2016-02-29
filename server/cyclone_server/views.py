@@ -12,3 +12,8 @@ class DeadlinesHandler(cyclone.web.RequestHandler, DatabaseMixin):
 	@defer.inlineCallbacks
 	def get(self):
 		self.render("main.html")
+
+class AssignmentHandler(cyclone.web.RequestHandler, DatabaseMixin):
+	@defer.inlineCallbacks
+	def get(self):
+		self.render("assignment.html")

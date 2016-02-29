@@ -24,7 +24,7 @@ class APIBase(cyclone.web.RequestHandler, DatabaseMixin):
 class LoginHandler(APIBase):
 
     @defer.inlineCallbacks
-    def get(self):
+    def post(self):
         username = self.get_argument('username', None)
         password = self.get_argument('password', None)
         user = yield self.database.login_user(username, password)

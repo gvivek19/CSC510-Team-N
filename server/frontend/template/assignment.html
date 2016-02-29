@@ -40,14 +40,33 @@
                 <div id="courses-list"></div>
             </div>
             <div class="col-md-10">
-                <div style="text-align:right; font-size:25px;">
-                    <div class="btn-group" role="group">
-                      <button type="button" id="deadlines-list" class="btn btn-default"><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
-                      <button type="button" id="deadlines-cal" class="btn btn-default"><span class="glyphicon glyphicon glyphicon glyphicon-calendar" aria-hidden="true"></span></button>
+                <div id="assignment-main-div">
+                    <div id="assignment-topic"></div>
+                    <div id="assignment-description"></div>
+                    <div id="assignment-attachments"></div>
+                    <div id="assignment-details">
+                        <table>
+                            <tr>
+                                <td><div class='title'>Deadline</div></td>
+                                <td><div id="assignment-details-deadline"><div class='value'></div></div></td>
+                            </tr>
+                            <tr>
+                                <td><div class='title'>Graded for</div></td>
+                                <td><div id="assignment-details-graded-for"><div class='value'></div></div></td>
+                            </tr>
+                            <tr>
+                                <td><div class='title'>Group?</div></td>
+                                <td><div id="assignment-details-group-yn"><div class='value'></div></div></td>
+                            </tr>
+                            <tr>
+                                <td><div class='title'>Submission status</div></td>
+                                <td><div id="assignment-details-submission-status"><div class='value'></div></div></td>
+                            </tr>
                     </div>
                 </div>
-                <div id="deadlines-content">
-                </div>
+                <div id="team-members"></div>
+                <div id="submission-files"></div>
+                <div id="discussion-forum"></div>
             </div>
         </div>
     </div>
@@ -60,10 +79,8 @@
     <script src="/static/bootstrap/bootstrap.min.js"></script>
     <script src="/static/lib/jquery-ui.js"></script>
     <script src="/static/js/script.js"></script>
-    <script src="/static/js/deadline.js"></script>
-    <script>
-        
-    </script>
+
+    <script src="/static/js/assignment.js"></script>
   
  </body>
  

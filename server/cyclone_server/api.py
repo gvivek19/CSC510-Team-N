@@ -2,6 +2,7 @@ import json
 from cyclone_server import config
 from twisted.internet import defer
 from cyclone_server.db.mixin import DatabaseMixin
+from cyclone_server.utils import HTTPBasic
 import cyclone
 
 
@@ -60,7 +61,15 @@ class DeadlinesHandler(APIBase):
     @HTTPBasic
     @defer.inlineCallbacks
     def get(self, course_id=None):
-        assignments = yield self.database.get_deadlines(self.user_id, course_id)
+        assignments = yield self.database.get_deadlines(self.user.id, course_id)
         defer.returnValue(self.write_data(assignments))
 
+
+class AssignmentHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, assignment_id):
+        assignment = yield self.database.get_assignment_by_id(assignment_id, self.user.id)
+        defer.returnValue(self.write_data(assignment))
 

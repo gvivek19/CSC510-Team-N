@@ -14,3 +14,19 @@ _GET_DEADLINES_BY_USER =\
 _GET_DEADLINES_BY_COURSE =\
 	'SELECT a.* FROM course c INNER JOIN course_user_map cu ON c.id=cu.course_id' \
 	' INNER JOIN assignments a ON c.id=a.course_id WHERE cu.user_id=%s AND c.id=%s'
+
+_GET_ASSIGNMENT =\
+	'SELECT * FROM assignments WHERE id=%s'
+
+_GET_ASSIGNMENT_ATTACHMENTS =\
+	'SELECT * FROM assignment_attachments WHERE question_id=%s'
+
+_GET_ASSIGNMENT_MEMBERS =\
+	'SELECT u.* FROM users u INNER JOIN group_student_map gsm ON gsm.student_id=u.id' \
+	' WHERE gsm.group_id=(SELECT g.id FROM groups g INNER JOIN group_student_map gm' \
+	' ON g.id=gm.group_id INNER JOIN users us ON gm.student_id=us.id WHERE g.assignment_id=%s and us.id=%s)'
+
+_GET_ASSIGNMENT_SUBMISSION_FILES =\
+	'SELECT sf.id, sf.file_path FROM submission_files sf INNER JOIN submissions s' \
+	' ON sf.submission_id=s.id WHERE s.group_id=(SELECT g.id FROM groups g INNER JOIN group_student_map gm' \
+	' ON g.id=gm.group_id INNER JOIN users us ON gm.student_id=us.id WHERE g.assignment_id=%s and us.id=%s)'

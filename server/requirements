@@ -1,0 +1,4 @@
+requirements:
+cyclone
+postgresql-server-dev-X.Y
+psycopg2

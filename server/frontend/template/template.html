@@ -21,27 +21,28 @@
     <style type="text/css" id="holderjs-style"></style>
   </head>
 
-
-  <body>
-    
-        <div class="col-md-5"></div>
-        <div class="col-md-2">
-            <div class='logo-main' style='margin-top:50%;'>SUBMIT</div>
-
-            <form name="login" method="POST" onSubmit="return login()">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-addon glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <input type="text" class="form-control" name="username" placeholder="Username">
-                </div>
-                <div class="input-group input-group-lg">
-                    <span class="input-group-addon glyphicon glyphicon-lock" aria-hidden="true"></span>
-                    <input type="password" name="password" class="form-control" placeholder="Password">
-                </div>
-                <div class='error-div'></div>
-                <input type="submit" name="login-submit" value="Login" class='btn btn-primary btn-block'>
-            </form>
+  <body>    
+        <div class="row header">
+            <div class='col-md-2'>
+                <div class='logo-main'>SUBMIT</div>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-1">
+               Welcome, <span id="user-name-welcome"></span>
+            </div>
+            <div class="col-md-1">
+               <a href="/logout">Logout</a>
+            </div>
         </div>
-        
+        <div class="row">
+            <div class='col-md-2'>
+                <div id="courses-list"></div>
+            </div>
+            <div class="col-md-10">
+                <!-- CONTENT-->
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -52,6 +53,21 @@
     <script src="/static/bootstrap/bootstrap.min.js"></script>
     <script src="/static/lib/jquery-ui.js"></script>
     <script src="/static/js/script.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var data = getCourses();
+            if(data.status) {
+                $.each(data.data, function(item) {
+                    var temp = data.data[item];
+                    var div = document.createElement("div");
+                    div.id = temp.id;
+                    $(div).html(temp.course_code + " : " + temp.course_name);
+                    $("#courses-list").append(div);
+                });
+            }
+        });
+    </script>
   
  </body>
  

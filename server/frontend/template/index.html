@@ -28,17 +28,17 @@
         <div class="col-md-2">
             <div class='logo-main' style='margin-top:50%;'>SUBMIT</div>
 
-            <form name="login" method="POST" onSubmit="return login()">
+            <form>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <input type="text" class="form-control" name="username" placeholder="Username">
+                    <input id="username" type="text" class="form-control" name="username" placeholder="Username">
                 </div>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon glyphicon glyphicon-lock" aria-hidden="true"></span>
-                    <input type="password" name="password" class="form-control" placeholder="Password">
+                    <input id="password" type="password" name="password" class="form-control" placeholder="Password">
                 </div>
-                <div class='error-div'></div>
-                <input type="submit" name="login-submit" value="Login" class='btn btn-primary btn-block'>
+                <div class='error-div' id='error-div'></div>
+                <input type="button" name="login-submit" value="Login" class='btn btn-primary btn-block' id="login_submit">
             </form>
         </div>
         
@@ -48,9 +48,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
-    <script src="/static/lib/jquery-1.12.1.min.js"></script>
+    <script src="/static/lib/jquery.js"></script>
     <script src="/static/bootstrap/bootstrap.min.js"></script>
-    <script src="/static/lib/jquery-ui.js"></script>
     <script src="/static/js/script.js"></script>
     <script src="/static/js/login.js"></script>
   

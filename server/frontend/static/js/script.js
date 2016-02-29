@@ -30,16 +30,3 @@ function getCourses() {
 	})
 	return {status:false};
 }
-
-$(document).ready(function() {
-    var data = getCourses();
-    if(data.status) {
-        $.each(data.data, function(item) {
-            var temp = data.data[item];
-            var div = document.createElement("div");
-            div.id = temp.id;
-            $(div).html(temp.course_code + " : " + temp.course_name);
-            $("#courses-list").append(div);
-        });
-    }
-});	

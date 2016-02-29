@@ -23,7 +23,8 @@ CREATE TABLE Users(
 	id SERIAL PRIMARY KEY,
 	unity_id VARCHAR(10) NOT NULL,
 	fname VARCHAR(100),
-	lname VARCHAR(100)
+	lname VARCHAR(100),
+	password VARCHAR(20)
 );
 
 CREATE TABLE Course_User_Map(

@@ -1,40 +1,3 @@
-function login() {
-	var username = $("#username").val();
-	var password = $("#password").val();
-	$.ajax({
-		url : "/login",
-		method : "POST",
-		data : {
-			username : username,
-			password : password
-		},
-		error : function(data, status, error) {
-			console.log("ERROR : " + data + error);
-		},
-		success : function(data, status) {
-			var returnedData = data.status;
-			if(status == true) {
-				window.url = data.redirectURL;
-			}
-			else {
-				$("#error-div").val("Invalid username/password");
-				$("#error-div").show();
-			}
-		}
-	});
-	return false;
-}
-
-$(document).ready(function() {
-	$("#deadlines-list").on("click", function() {
-		deadlines_list_view(null);
-	});
-
-	$("#deadlines-cal").on("click", function() {
-		deadlines_cal_view(null);
-	});
-});
-
 function getcookie(key) {
 	var cookies = document.cookie.split(';');
 	for(var i = 0 ; i < cookies.length ; i++) {
@@ -68,46 +31,15 @@ function getCourses() {
 	return {status:false};
 }
 
-function getDeadlines(course) {
-	url = "";
-	if(course == null) {
-		url = "/deadlines";
-	}
-	else {
-		url = "/deadlines/" + course;
-	}
-
-	$.ajax({
-		method : "GET",
-		url : url,
-		data : {
-			_id : getcookie('_id')
-		},
-		success : function(data) {
-			return data;
-		},
-		error : function(data) {
-			return {status : false};
-		}
-	});
-	return {status : false};
-}
-
-function deadlines_list_view(course) {
-	var data = getDeadlines(course);
-	var mainDiv = document.createElement("div");
-	if(data.status) {
-		$.each(data.data, function(i) {
-			var d = data.data[i];
-			var div = document.createElement("div");
-			div.id = d.id;
-			$(div).html("<div id='"+d.id+"'><b>" + d.course + "</b><span style='float:right;'>"+d.date+"</span></div><div>"+d.topic+"</div>");
-			$(mainDiv).append(div);
-		});
-	}
-	$("#deadlines-content").append(mainDiv);
-}
-
-function deadlines_cal_view(course) {
-
-}
+$(document).ready(function() {
+    var data = getCourses();
+    if(data.status) {
+        $.each(data.data, function(item) {
+            var temp = data.data[item];
+            var div = document.createElement("div");
+            div.id = temp.id;
+            $(div).html(temp.course_code + " : " + temp.course_name);
+            $("#courses-list").append(div);
+        });
+    }
+});	

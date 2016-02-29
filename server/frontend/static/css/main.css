@@ -39,3 +39,61 @@
 	padding:10px;
 	background:#fefefe;
 }
+
+#assignment-main-div {
+	width:70%;
+	margin:auto;
+}
+
+#assignment-main-div #assignment-topic {
+	font-size:30px;
+}
+
+#assignment-main-div #assignment-description {
+	font-size:15px;
+}
+
+#assignment-main-div #assignment-attachments {
+	font-color:blue;
+}
+
+#assignment-main-div #assignment-details {
+	width:60%;
+	margin:auto;
+	padding:10px;
+}
+
+#assignment-main-div #assignment-details-deadline {
+
+}
+
+#assignment-main-div #assignment-details-graded-for {
+
+}
+
+#assignment-main-div #assignment-details-group-yn {
+
+}
+
+#assignment-main-div #assignment-details-submission-status {
+
+}
+
+#assignment-main-div #assignment-details .title{
+	padding:5px;
+	margin:10px;
+	width:100%;
+}
+
+#assignment-main-div #assignment-details .value {
+	padding:5px;
+	width:100%;
+}
+
+#assignment-main-div #team-members {
+
+}
+
+#assignment-main-div #submission-files {
+
+}

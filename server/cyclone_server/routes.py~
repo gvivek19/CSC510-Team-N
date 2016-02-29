@@ -14,10 +14,14 @@ def munge_route_list(rl):
 
 
 routes = munge_route_list([
+<<<<<<< HEAD
+    URLSpec(r'/', views.IndexHandler, name='home'),
+    URLSpec(r'/main', views.DeadlinesHandler, name='main')
+=======
 	#VIEWS
     URLSpec(r'/', views.IndexHandler, name='home'),
-    URLSpec(r'/main', views.DeadlinesHandler, name='main'),
 
     #APIs
     URLSpec(r'/login', api.LoginHandler)
+>>>>>>> 9f62a3b111a745b6b07d617c21466efa22b4944c
 ])

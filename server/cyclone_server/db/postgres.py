@@ -33,3 +33,28 @@ class PostgresDatabase(object):
                     "year": row.year
             })
         defer.returnValue(res)
+
+    @defer.inlineCallbacks
+    def get_deadlines(self, user_id, course_id=None):
+        assignments = None
+        if course_id:
+            assignments = yield self.connection.runQuery(_GET_DEADLINES_BY_COURSE, (user_id, course_id))
+        else:
+            assignments = yield self.connection.runQuery(_GET_DEADLINES_BY_USER, (user_id,))
+        res = []
+        for row in assignments:
+            res.append({
+                    "id": row.id,
+                    "title": row.title,
+                    "description": row.description,
+                    "created": row.created,
+                    "deadline": row.deadline,
+                    "grade_max": row.grade_max,
+                    "is_group": row.is_group,
+                    "course_id": row.course_id
+            })
+        defer.returnValue(res);
+
+
+
+

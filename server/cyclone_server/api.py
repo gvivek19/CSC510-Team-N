@@ -20,6 +20,15 @@ class APIBase(cyclone.web.RequestHandler, DatabaseMixin):
         self.set_header("Content-Type", "application/json")
         return self.write(json.dumps(d, sort_keys=True, indent=4))
 
+    def write_data(self, data):
+        res = {}
+        if data:
+            res['status'] = True
+            res['data'] = data
+        else:
+            res['status'] = False
+        return self.write_json(res)
+
 
 class LoginHandler(APIBase):
 
@@ -39,13 +48,19 @@ class LoginHandler(APIBase):
 
 class CoursesHandler(APIBase):
 
+    @HTTPBasic
     @defer.inlineCallbacks
     def get(self):
         courses = yield self.database.get_courses_by_user_id(self.user.id)
-        res = {}
-        if courses:
-            res['status'] = True
-            res['data'] = courses
-        else:
-            res['status'] = False
-        defer.returnValue(self.write_json(res))
+        defer.returnValue(self.write_data(courses))
+
+
+class DeadlinesHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, course_id=None):
+        assignments = yield self.database.get_deadlines(self.user_id, course_id)
+        defer.returnValue(self.write_data(assignments))
+
+

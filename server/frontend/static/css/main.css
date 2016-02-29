@@ -14,7 +14,6 @@
 	letter-spacing: 5px;
 	font-size: 30px;
 	text-align: center;
-	margin-top:50%;
 }
 
 .error-div {
@@ -22,4 +21,21 @@
 	width:100%;
 	text-align:center;
 	display:none;
+}
+
+.row {
+	width: 100%;
+	margin:0px;
+	padding:0.25%;
+}
+
+.header {
+	color:white;
+	background:black;
+}
+
+#courses-list {
+	border:1px solid #dedede;
+	padding:10px;
+	background:#fefefe;
 }

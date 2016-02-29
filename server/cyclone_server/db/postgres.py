@@ -18,3 +18,18 @@ class PostgresDatabase(object):
         user = yield self.connection.runQuery(query._GET_USER_BY_ID, (user_id,))
         if user:
         	defer.returnValue(user[0])
+
+    @defer.inlineCallbacks
+    def get_courses_by_user_id(self, user_id):
+        courses = yield self.connection.runQuery(query._GET_USER_COURSES, (user_id,))
+        res = []
+        for row in courses:
+            res.append({
+                    "id": row.id
+                    "course_code": row.course_code,
+                    "course_name": row.name,
+                    "section": row.section,
+                    "term": row.term,
+                    "year": row.year
+            })
+        defer.returnValue(res)

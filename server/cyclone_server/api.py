@@ -35,3 +35,17 @@ class LoginHandler(APIBase):
         else:
             res['status'] = False
         defer.returnValue(self.write_json(res))
+
+
+class CoursesHandler(APIBase):
+
+    @defer.inlineCallbacks
+    def get(self):
+        courses = yield self.database.get_courses_by_user_id(self.user.id)
+        res = {}
+        if courses:
+            res['status'] = True
+            res['data'] = courses
+        else:
+            res['status'] = False
+        defer.returnValue(self.write_json(res))

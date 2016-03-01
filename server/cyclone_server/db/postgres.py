@@ -134,9 +134,20 @@ class PostgresDatabase(object):
             res.append(self.serialize_submissions(row))
         defer.returnValue(res)
 
+    @defer.inlineCallbacks
+    def get_submission_files(submission_id):
+        members = yield self.connection.runQuery(query._GET_SUBMISSION_FILES, (submission_id))
+        res = []
+        for row in members:
+            res.append(self.serialize_assignment_submission_files(row))
+        defer.returnValue(res)
 
-
-
+    @defer.inlineCallbacks
+    def update_grade(submission_id, grade, status):
+        data = yield self.connection.runQuery(query._UPDATE_GRADE, (status, grade, submission_id))
+        if data:
+            data = data[0].id
+        return data
 
 
 

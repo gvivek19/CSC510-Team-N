@@ -83,4 +83,23 @@ class EvaluationHandler(APIBase):
         defer.returnValue(self.write_data(submissions))
 
 
+class EvaluationSubmissionHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, submission_id):
+        files = yield self.database.get_submission_files(submission_id)
+        defer.returnValue(self.write_data(files))
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, submission_id):
+        grade = int(self.get_argument('total_marks', '0'))
+        status = yield self.database.update_grade(submission_id, grade, "Graded")
+        defer.returnValue(self.write_data(status))
+
+
+
+
+
 

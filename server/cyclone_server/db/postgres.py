@@ -147,7 +147,7 @@ class PostgresDatabase(object):
         data = yield self.connection.runQuery(query._UPDATE_GRADE, (status, grade, submission_id))
         if data:
             data = data[0].id
-        return data
+        defer.returnValue(data)
 
 
 

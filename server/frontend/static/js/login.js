@@ -21,6 +21,8 @@ $(function(){
 			success : function(data, status) {
 				var returnedData = data.status;
 				if(returnedData) {
+					document.cookie = "";
+					setcookie('_id', data._id);
 					window.location = "./main";
 				}
 				else {

@@ -1,4 +1,5 @@
 function getcookie(key) {
+	key = key + "=";
 	var cookies = document.cookie.split(';');
 	for(var i = 0 ; i < cookies.length ; i++) {
 		var c = cookies[i];
@@ -11,7 +12,7 @@ function getcookie(key) {
 }
 
 function setcookie(key, value) {
-	document.cookie += (key + "=" + value + ";");
+	document.cookie = (key + "=" + value + ";");
 }
 
 function getCourses() {

@@ -41,3 +41,9 @@ _GET_SUBMISSIONS_BY_ASSIGNMENT_ID =\
 
 _UPDATE_GRADE =\
 	'UPDATE submissions SET grading_status=%s, grade=%s WHERE id=%s RETURNING id'
+
+_CREATE_COURSE =\
+	'INSERT INTO course(course_code, section, name, term, year) VALUES (%s,%s,%s,%s,%s) RETURNING *'
+
+_CREATE_COURSE_USER =\
+	'INSERT INTO course_user_map(course_id, user_id, type) VALUES (%s,(SELECT id FROM users WHERE unity_id=%s),%s) RETURNING *'

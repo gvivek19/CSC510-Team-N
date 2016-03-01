@@ -28,6 +28,5 @@ function getCourses() {
 	    error : function(data) {
 	    	return {status:false};
 	    }
-	})
-	return {status:false};
+	});
 }

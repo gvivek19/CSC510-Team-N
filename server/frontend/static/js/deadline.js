@@ -1,5 +1,6 @@
 
 $(document).ready(function() {
+	getCourses();
 	getDeadlines();
 	$("#deadlines-list").on("click", function() {
 		deadlines_list_view(null);

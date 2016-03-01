@@ -113,9 +113,27 @@
 	width : 50%;
 	margin : auto;
 	margin-top : 10%;
-	border : 1px solid lightgray;
+	border : 1px solid #eee;
 	background : white;
 	border-radius : 20px;
 	padding : 3%;
 	padding-top:1%;
+}
+
+.course_element {
+	border:1px solid gray;
+	padding:5px;
+	margin:5px;
+	cursor:pointer;
+}
+.course_element:hover {
+	background:#eee;
+}
+
+.title_1 {
+	background:#a60000;
+	color:white;
+	padding:5px;
+	width:100%;
+	text-align:center;
 }

@@ -39,14 +39,20 @@
             <div class='col-md-2'>
                 <div id="courses-list"></div>
             </div>
-            <div class="col-md-10">
-                <div style="text-align:right; font-size:25px;">
-                    <div class="btn-group" role="group">
-                      <button type="button" id="deadlines-list" class="btn btn-default"><span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
-                      <button type="button" id="deadlines-cal" class="btn btn-default"><span class="glyphicon glyphicon glyphicon glyphicon-calendar" aria-hidden="true"></span></button>
+            <div class="col-md-1">
+                <div id="submissions"></div>
+            </div>
+            <div class="col-md-1">
+                <div id="files_list"></div>
+            </div>
+            <div class="col-md-8">
+                <div id="file"></div>
+                <div id="submit-div">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" aria-hidden="true">Total marks</span>
+                        <input id="marks" type="text" name="marks" class="form-control" placeholder="Marks">
                     </div>
-                </div>
-                <div id="deadlines-content">
+                    <input type="button" name="marks-submit" value="Save" class='btn btn-primary btn-block' id="marks_submit">
                 </div>
             </div>
         </div>
@@ -60,10 +66,7 @@
     <script src="/static/bootstrap/bootstrap.min.js"></script>
     <script src="/static/lib/jquery-ui.js"></script>
     <script src="/static/js/script.js"></script>
-    <script src="/static/js/deadline.js"></script>
-    <script>
-        
-    </script>
+    <script src="/static/js/evaluate.js"></script>
   
  </body>
  

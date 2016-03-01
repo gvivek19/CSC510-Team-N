@@ -2,6 +2,7 @@ import json
 from cyclone_server import config
 from twisted.internet import defer
 from cyclone_server.db.mixin import DatabaseMixin
+from cyclone_server.utils import HTTPBasic, FileUploadMixin
 import cyclone
 
 
@@ -20,11 +21,20 @@ class APIBase(cyclone.web.RequestHandler, DatabaseMixin):
         self.set_header("Content-Type", "application/json")
         return self.write(json.dumps(d, sort_keys=True, indent=4))
 
+    def write_data(self, data):
+        res = {}
+        if data:
+            res['status'] = True
+            res['data'] = data
+        else:
+            res['status'] = False
+        return self.write_json(res)
+
 
 class LoginHandler(APIBase):
 
     @defer.inlineCallbacks
-    def get(self):
+    def post(self):
         username = self.get_argument('username', None)
         password = self.get_argument('password', None)
         user = yield self.database.login_user(username, password)
@@ -35,3 +45,61 @@ class LoginHandler(APIBase):
         else:
             res['status'] = False
         defer.returnValue(self.write_json(res))
+
+
+class CoursesHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self):
+        courses = yield self.database.get_courses_by_user_id(self.user.id)
+        defer.returnValue(self.write_data(courses))
+
+
+class DeadlinesHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, course_id=None):
+        assignments = yield self.database.get_deadlines(self.user.id, course_id)
+        defer.returnValue(self.write_data(assignments))
+
+
+class AssignmentHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, assignment_id):
+        assignment = yield self.database.get_assignment_by_id(assignment_id, self.user.id)
+        defer.returnValue(self.write_data(assignment))
+
+
+class EvaluationHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, assignment_id):
+        submissions = yield self.database.get_submissions_by_assignment_id(assignment_id)
+        defer.returnValue(self.write_data(submissions))
+
+
+class EvaluationSubmissionHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, submission_id):
+        files = yield self.database.get_submission_files(submission_id)
+        defer.returnValue(self.write_data(files))
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, submission_id):
+        grade = int(self.get_argument('total_marks', '0'))
+        status = yield self.database.update_grade(submission_id, grade, "Graded")
+        defer.returnValue(self.write_data(status))
+
+
+
+
+
+

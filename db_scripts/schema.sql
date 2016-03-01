@@ -114,3 +114,5 @@ CREATE TABLE Feedback_thread(
 	posted_by INTEGER REFERENCES Users,
 	created TIMESTAMP DEFAULT utc_now()
 );
+
+ALTER TABLE assignments ADD COLUMN course_id INTEGER REFERENCES course;

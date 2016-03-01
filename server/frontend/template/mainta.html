@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Submit</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/bootstrap/jquery-ui.css" rel="stylesheet">
+   
+    <!-- Custom styles for this template -->
+    <!--link href="/static/bootstrap/base.css" rel="stylesheet"-->
+
+    <style type="text/css" id="holderjs-style"></style>
+  </head>
+
+  <body>    
+        <div class="row header">
+            <div class='col-md-2'>
+                <div class='logo-main'>SUBMIT</div>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-1">
+               Welcome, <span id="user-name-welcome"></span>
+            </div>
+            <div class="col-md-1">
+               <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-md-2'>
+                <div id="courses-list"></div><input type="button" name="add-course" value="Add course" class='btn btn-primary btn-block' id="add_course">
+            </div>
+            <div class="col-md-10">
+                <div id="deadlines-content">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overlay">
+        <div id="add_course_div">
+            <h1>Add course</h1>
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Course code</span>
+                <input id="course_code" type="input" name="course-code" class="form-control" placeholder="Course code">
+            </div>
+            
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Course name</span>
+                <input id="course_name" type="input" name="course-name" class="form-control" placeholder="Course name">
+            </div>
+
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Term</span>
+                <input id="term" type="input" name="term" class="form-control" placeholder="Term">
+            </div>
+
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Year</span>
+                <input id="year" type="input" name="year" class="form-control" placeholder="Year">
+            </div>
+
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Students</span>
+                <input id="students" type="input" name="students" class="form-control" placeholder="Students (comma separated list)">
+            </div>
+
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Teaching Assistants</span>
+                <input id="tas" type="input" name="tas" class="form-control" placeholder="Teaching assistants (comma separated list)">
+            </div>
+
+            <input type="button" name="add-course" value="Add course" class='btn btn-primary btn' id="add_course_btn">
+            <input type="button" name="add-course" value="Cancel" class='btn btn-primary btn' id="cancel_course_btn">
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="/static/lib/jquery-1.12.1.min.js"></script>
+    <script src="/static/bootstrap/bootstrap.min.js"></script>
+    <script src="/static/lib/jquery-ui.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/deadline.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#add_course").on("click", function() {
+                $("#overlay").show();
+                $("#add_course_div").show();
+            });
+
+            $("#add_course_btn").on("click", function() {
+                var tas = $("#tas").val().split(",");
+                var students = $("#students").val().split(",");
+
+                $.ajax({
+                    url : "/courses/add",
+                    data : {
+                        _id : getcookie("_id"),
+                        code : $("#course_code"),
+                        name : $("#course_name"),
+                        tas : tas,
+                        students : students,
+                        term : $("#term"),
+                        year : $("#year")
+                    },
+                    success : function(data) {
+                        alert("Course added successfully");
+                        var t = window.location;
+                        window.location = t;
+                    },
+                    error : function(data) {
+                        alert("Error");
+                    }
+                });
+            });
+
+            $("#cancel_course_btn").on("click", function() {
+                $("#course_code").val("");
+                $("#course_name").val("");
+                $("#overlay").hide();
+                $("#add_course_div").hide();
+            });
+        });
+    </script>
+  
+ </body>
+ 
+</html>

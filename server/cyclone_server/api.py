@@ -81,7 +81,7 @@ class AssignmentHandler(APIBase):
 
     @HTTPBasic
     @defer.inlineCallbacks
-    def get(self, assignment_id):
+    def get(self, assignment_id=None):
         assignment = yield self.database.get_assignment_by_id(assignment_id, self.user.id)
         defer.returnValue(self.write_data(assignment))
 

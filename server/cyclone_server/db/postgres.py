@@ -37,6 +37,16 @@ class PostgresDatabase(object):
                 "course_id": assignment.course_id
         }
 
+    def serialize_submissions(submission):
+        return {
+                "id": submission.id,
+                "assignment_id": submission.question_id,
+                "grading_status": submission.grading_status,
+                "group_id": submission.group_id,
+                "grade": submission.grade,
+                "students": submission.students
+        }
+
     def serialize_attachment(attachment):
         return {
                 "id": attachment.id,
@@ -116,6 +126,13 @@ class PostgresDatabase(object):
             res.append(self.serialize_assignment_submission_files(row))
         defer.returnValue(res)
 
+    @defer.inlineCallbacks
+    def get_submissions_by_assignment_id(assignment_id):
+        submissions = yield self.connection.runQuery(query._GET_SUBMISSIONS_BY_ASSIGNMENT_ID, (assignment_id,))
+        res = []
+        for row in members:
+            res.append(self.serialize_submissions(row))
+        defer.returnValue(res)
 
 
 

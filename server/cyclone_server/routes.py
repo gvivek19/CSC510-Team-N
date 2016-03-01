@@ -24,5 +24,6 @@ routes = munge_route_list([
     URLSpec(r'/courses', api.CoursesHandler),
     URLSpec(r'/deadlines', api.DeadlinesHandler),
     URLSpec(r'/deadlines/([0-9]+)', api.DeadlinesHandler),
-    URLSpec(r'/assignments/([0-9]+)', api.AssignmentHandler)
+    URLSpec(r'/assignments/([0-9]+)', api.AssignmentHandler),
+    URLSpec(r'/evaluate/([0-9]+)', api.EvaluationHandler)
 ])

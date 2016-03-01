@@ -32,9 +32,8 @@ function show_upload_files_ui(id) {
 }
 
 function save_assignment_details() {
-	show_upload_files_ui();
 	$.ajax({
-		url : '/assignment',
+		url : '/assignments/',
 		method : 'POST',
 		data : {
 			_id : getcookie('_id'),

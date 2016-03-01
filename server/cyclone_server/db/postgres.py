@@ -149,6 +149,7 @@ class PostgresDatabase(object):
             data = data[0].id
         defer.returnValue(data)
 
+
     @defer.inlineCallbacks
     def createCourse(data, user_id):
         #Create the course first

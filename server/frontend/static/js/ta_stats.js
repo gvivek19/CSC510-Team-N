@@ -91,47 +91,46 @@ function median(values) {
         return (values[half-1] + values[half]) / 2.0;
 }
 
-google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(drawTitleSubtitle);
 
-function drawTitleSubtitle() {
-      var data = new google.visualization.DataTable();
-      data.addColumn('timeofday', 'Time of Day');
-      data.addColumn('number', 'Motivation Level');
-      data.addColumn('number', 'Energy Level');
+google.charts.load("current", {packages:["corechart"]});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+    ['Dinosaur', 'Length'],
+    ['Acrocanthosaurus (top-spined lizard)', 12.2],
+    ['Albertosaurus (Alberta lizard)', 9.1],
+    ['Allosaurus (other lizard)', 12.2],
+    ['Apatosaurus (deceptive lizard)', 22.9],
+    ['Archaeopteryx (ancient wing)', 0.9],
+    ['Argentinosaurus (Argentina lizard)', 36.6],
+    ['Baryonyx (heavy claws)', 9.1],
+    ['Brachiosaurus (arm lizard)', 30.5],
+    ['Ceratosaurus (horned lizard)', 6.1],
+    ['Coelophysis (hollow form)', 2.7],
+    ['Compsognathus (elegant jaw)', 0.9],
+    ['Deinonychus (terrible claw)', 2.7],
+    ['Diplodocus (double beam)', 27.1],
+    ['Dromicelomimus (emu mimic)', 3.4],
+    ['Gallimimus (fowl mimic)', 5.5],
+    ['Mamenchisaurus (Mamenchi lizard)', 21.0],
+    ['Megalosaurus (big lizard)', 7.9],
+    ['Microvenator (small hunter)', 1.2],
+    ['Ornithomimus (bird mimic)', 4.6],
+    ['Oviraptor (egg robber)', 1.5],
+    ['Plateosaurus (flat lizard)', 7.9],
+    ['Sauronithoides (narrow-clawed lizard)', 2.0],
+    ['Seismosaurus (tremor lizard)', 45.7],
+    ['Spinosaurus (spiny lizard)', 12.2],
+    ['Supersaurus (super lizard)', 30.5],
+    ['Tyrannosaurus (tyrant lizard)', 15.2],
+    ['Ultrasaurus (ultra lizard)', 30.5],
+    ['Velociraptor (swift robber)', 1.8]]);
 
-      data.addRows([
-        [{v: [8, 0, 0], f: '8 am'}, 1, .25],
-        [{v: [9, 0, 0], f: '9 am'}, 2, .5],
-        [{v: [10, 0, 0], f:'10 am'}, 3, 1],
-        [{v: [11, 0, 0], f: '11 am'}, 4, 2.25],
-        [{v: [12, 0, 0], f: '12 pm'}, 5, 2.25],
-        [{v: [13, 0, 0], f: '1 pm'}, 6, 3],
-        [{v: [14, 0, 0], f: '2 pm'}, 7, 4],
-        [{v: [15, 0, 0], f: '3 pm'}, 8, 5.25],
-        [{v: [16, 0, 0], f: '4 pm'}, 9, 7.5],
-        [{v: [17, 0, 0], f: '5 pm'}, 10, 10],
-      ]);
+  var options = {
+    title: 'Lengths of dinosaurs, in meters',
+    legend: { position: 'none' },
+  };
 
-      var options = {
-        chart: {
-          title: 'Score distribution',
-        },
-        hAxis: {
-          title: 'Score',
-          format: 'h:mm a',
-          viewWindow: {
-            min: [7, 30, 0],
-            max: [17, 30, 0]
-          }
-        },
-        vAxis: {
-          title: 'Frequency'
-        }
-      };
-
-      var material = new google.charts.Bar(document.getElementById('chart_div'));
-      material.draw(data, options);
-    }
-
-
+  var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+  chart.draw(data, options);
+}

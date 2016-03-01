@@ -199,6 +199,6 @@ class PostgresDatabase(object):
                 (data["title"], data["description"], data["deadline"], data["group"],
                     data["total"], data["course_id"]))
         data = data[0]
-        for attachment in data["expected_attachments"]:
+        for attachment in data["expected_files"]:
             status = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_FILE, (data.id, attachment))
         defer.returnValue(self.serialize_assignment(data))

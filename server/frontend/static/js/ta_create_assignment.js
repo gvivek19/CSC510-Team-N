@@ -34,16 +34,19 @@ function show_upload_files_ui(id) {
 
 function save_assignment_details() {
 	$.ajax({
-		url : '/assignments/',
+		url : '/assignments',
 		method : 'POST',
 		data : {
 			_id : getcookie('_id'),
-			title : $("#title").val(),
-			description : $("#description").val(),
-			deadline : $("#deadline").data().date,
-			group : $('.btn-group > .btn.active').html(),
-			total : $("#grade_max").val(),
-			expected_files : $("#expected_files").val().split(',')
+			data: JSON.stringify({
+				title : $("#title").val(),
+				description : $("#description").val(),
+				deadline : $("#deadline").data().date,
+				group : $('.btn-group > .btn.active').html(),
+				total : $("#grade_max").val(),
+				expected_files : $("#expected_files").val().split(','),
+				course_id: 1
+			})
 		},
 		success : function(data) {
 			if(data.status) {

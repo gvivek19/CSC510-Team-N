@@ -73,3 +73,14 @@ class AssignmentHandler(APIBase):
         assignment = yield self.database.get_assignment_by_id(assignment_id, self.user.id)
         defer.returnValue(self.write_data(assignment))
 
+
+class EvaluationHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, assignment_id):
+        submissions = yield self.database.get_submissions_by_assignment_id(assignment_id)
+        defer.returnValue(self.write_data(submissions))
+
+
+

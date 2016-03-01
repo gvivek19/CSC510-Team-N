@@ -36,9 +36,21 @@ function getDeadlines(course) {
 	return {status : false};
 }
 
-function deadlines_list_view(course) {
+function deadlines_list_view(course, user_type) {
 	var data = getDeadlines(course);
+	$("#main-content").html("");
 	var mainDiv = document.createElement("div");
+	if(user_type && (user_type == "ta" || user_type == "instructor")) {
+		console.log("A");
+		var d = document.createElement("div");
+		$(d).html("<a href='./ta_create_assignment' class='btn btn-primary btn'>Create new assignment</a>");
+		$(mainDiv).append(d);
+	}
+	if($("#deadlines-content").length == 0) {
+		var a = document.createElement("div");
+		a.id = "deadlines-content";
+		$("#main-content").append(a);
+	}
 	if(data.status) {
 		$.each(data.data, function(i) {
 			var d = data.data[i];

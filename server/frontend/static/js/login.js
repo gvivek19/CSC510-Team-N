@@ -20,8 +20,10 @@ $(function(){
 			},
 			success : function(data, status) {
 				var returnedData = data.status;
-				if(status == true) {
-					window.url = data.redirectURL;
+				if(returnedData) {
+					document.cookie = "";
+					setcookie('_id', data._id);
+					window.location = "./main";
 				}
 				else {
 					$("#error-div").html("Invalid username/password");

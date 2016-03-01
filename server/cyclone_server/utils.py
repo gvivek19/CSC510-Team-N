@@ -15,7 +15,7 @@ def HTTPBasic(method):
         if not user_id:
             raise cyclone.web.HTTPAuthenticationRequired()
         self.user = yield self.database.get_user_by_id(user_id)
-        defer.returnValue(self.method(*args, **kwargs))
+        defer.returnValue(method(*args, **kwargs))
     return wrapper
 
 

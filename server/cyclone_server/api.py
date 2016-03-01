@@ -83,4 +83,11 @@ class EvaluationHandler(APIBase):
         defer.returnValue(self.write_data(submissions))
 
 
+class EvaluationSubmissionHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, submission_id):
+        files = yield self.database.get_submission_files(submission_id)
+        defer.returnValue(self.write_data(files))
 

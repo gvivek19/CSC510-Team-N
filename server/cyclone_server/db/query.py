@@ -26,6 +26,9 @@ _GET_ASSIGNMENT_MEMBERS =\
 	' WHERE gsm.group_id=(SELECT g.id FROM groups g INNER JOIN group_student_map gm' \
 	' ON g.id=gm.group_id INNER JOIN users us ON gm.student_id=us.id WHERE g.assignment_id=%s and us.id=%s)'
 
+_GET_SUBMISSION_FILES =\
+	'SELECT id, file_path FROM submission_files WHERE submission_id=%s'
+
 _GET_ASSIGNMENT_SUBMISSION_FILES =\
 	'SELECT sf.id, sf.file_path FROM submission_files sf INNER JOIN submissions s' \
 	' ON sf.submission_id=s.id WHERE s.group_id=(SELECT g.id FROM groups g INNER JOIN group_student_map gm' \

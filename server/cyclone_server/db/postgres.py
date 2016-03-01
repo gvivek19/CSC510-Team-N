@@ -7,7 +7,7 @@ class PostgresDatabase(object):
     def __init__(self, connection):
         self.connection = connection
 
-    def serialize_user(user):
+    def serialize_user(self, user):
         return {
                 "id": user.id,
                 "unity_id": user.unity_id,
@@ -15,7 +15,7 @@ class PostgresDatabase(object):
                 "lname": user.lname
         }
 
-    def serialize_course(course):
+    def serialize_course(self, course):
         return {
                 "id": course.id,
                 "course_code": course.course_code,
@@ -25,7 +25,7 @@ class PostgresDatabase(object):
                 "year": course.year
         }
 
-    def serialize_assignment(assignment):
+    def serialize_assignment(self, assignment):
         return {
                 "id": assignment.id,
                 "title": assignment.title,
@@ -37,7 +37,7 @@ class PostgresDatabase(object):
                 "course_id": assignment.course_id
         }
 
-    def serialize_submissions(submission):
+    def serialize_submissions(self, submission):
         return {
                 "id": submission.id,
                 "assignment_id": submission.question_id,
@@ -47,13 +47,13 @@ class PostgresDatabase(object):
                 "students": submission.students
         }
 
-    def serialize_attachment(attachment):
+    def serialize_attachment(self, attachment):
         return {
                 "id": attachment.id,
                 "filepath": attachment.file_path
         }
 
-    def serialize_assignment_submission_files(attachment):
+    def serialize_assignment_submission_files(self, attachment):
         return {
                 "id": attachment.id,
                 "filepath": attachment.file_path

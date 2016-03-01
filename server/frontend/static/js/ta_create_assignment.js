@@ -19,22 +19,22 @@ function show_upload_files_ui(id) {
 	$(inp).attr("name", "files[]");
 	$(inp).attr("data-url", "/upload");
 	$(inp).attr("multiple", "");
+	$(inp).attr("_id", id);
 
 	$(inp).fileupload({
-            dataType: 'json',
-            formData: {_id: getcookie(), assignment_id : id},
-            done: function (e, data) {
-            	file = file + 1;
-                show_upload_files_ui(id);
-            }
-        });
+        dataType: 'json',
+        formData: {_id: getcookie(), assignment_id : $(this).attr("_id")},
+        done: function (e, data) {
+        	file = file + 1;
+            show_upload_files_ui($(this).attr("_id"));
+        }
+    });
 	$("#cont", "#new_content").append(inp);
 }
 
 function save_assignment_details() {
-	show_upload_files_ui();
 	$.ajax({
-		url : '/assignment',
+		url : '/assignments/',
 		method : 'POST',
 		data : {
 			_id : getcookie('_id'),

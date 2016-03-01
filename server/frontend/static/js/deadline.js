@@ -9,6 +9,24 @@ $(document).ready(function() {
 	$("#deadlines-cal").on("click", function() {
 		deadlines_cal_view(null);
 	});
+
+	$("#deadlines-upcoming-button").on("click", function() {
+		$("#deadlines-upcoming-button").addClass('active');
+		$("#deadlines-past-button").removeClass('active');
+		$("#deadlines-past-content").hide();
+		$("#deadlines-upcoming-content").show();
+	});
+
+	$("#deadlines-past-button").on("click", function() {
+		$("#deadlines-past-button").addClass('active');
+		$("#deadlines-upcoming-button").removeClass('active');
+		$("#deadlines-upcoming-content").hide();
+		$("#deadlines-past-content").show();
+	});
+
+	$("#deadlines-cal").on("click", function() {
+		deadlines_cal_view(null);
+	});
 });
 
 function getDeadlines(course) {
@@ -36,31 +54,52 @@ function getDeadlines(course) {
 	return {status : false};
 }
 
+function sort(data) {
+	for(i = 0 ; i < data.length ; i++) {
+		for(j = 0 ; j < data.length ; j++) {
+			if(data[i].deadline > data[j].deadline) {
+				temp = data[i];
+				data[i] = data[j];
+				data[j] = temp;
+			}
+		}
+	}
+	return data;
+}
+
 function deadlines_list_view(course, user_type) {
 	var data = getDeadlines(course);
 	$("#main-content").html("");
-	var mainDiv = document.createElement("div");
 	if(user_type && (user_type == "ta" || user_type == "instructor")) {
-		console.log("A");
 		var d = document.createElement("div");
 		$(d).html("<a href='./ta_create_assignment' class='btn btn-primary btn'>Create new assignment</a>");
-		$(mainDiv).append(d);
+		$("#main-content").append(d);
 	}
-	if($("#deadlines-content").length == 0) {
-		var a = document.createElement("div");
-		a.id = "deadlines-content";
-		$("#main-content").append(a);
-	}
+
 	if(data.status) {
-		$.each(data.data, function(i) {
+		data.data = sort(data.data);
+		total = data.data.length;
+		var i = 0;
+		var time = new Date();
+		time = time.getTime();
+
+		for(i = 0 ; i < total ; i++) {
 			var d = data.data[i];
-			var div = document.createElement("div");
-			div.id = d.id;
-			$(div).html("<div id='"+d.id+"'><b>" + d.course + "</b><span style='float:right;'>"+d.date+"</span></div><div>"+d.topic+"</div>");
-			$(mainDiv).append(div);
-		});
+			
+			if(d.date < time) {
+				var div = document.createElement("div");
+				div.id = d.id;
+				$(div).html("<div id='"+d.id+"'><b>" + d.course + "</b><span style='float:right;'>"+d.date+"</span></div><div>"+d.topic+"</div>");
+				$("#deadlines-past-content").append(div);
+			}
+			else {
+				var div = document.createElement("div");
+				div.id = d.id;
+				$(div).html("<div id='"+d.id+"'><b>" + d.course + "</b><span style='float:right;'>"+d.date+"</span></div><div>"+d.topic+"</div>");
+				$("#deadlines-upcoming-content").append(div);
+			}
+		}
 	}
-	$("#deadlines-content").append(mainDiv);
 }
 
 function deadlines_cal_view(course) {

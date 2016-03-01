@@ -40,6 +40,35 @@
 	background:#fefefe;
 }
 
+.description {
+	height: 100px !important;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.submitStyle{
+	position: fixed;
+	right:20px;
+	bottom: 20px;
+
 #assignment-main-div {
 	width:70%;
 	margin:auto;
@@ -113,9 +142,27 @@
 	width : 50%;
 	margin : auto;
 	margin-top : 10%;
-	border : 1px solid lightgray;
+	border : 1px solid #eee;
 	background : white;
 	border-radius : 20px;
 	padding : 3%;
 	padding-top:1%;
+}
+
+.course_element {
+	border:1px solid gray;
+	padding:5px;
+	margin:5px;
+	cursor:pointer;
+}
+.course_element:hover {
+	background:#eee;
+}
+
+.title_1 {
+	background:#a60000;
+	color:white;
+	padding:5px;
+	width:100%;
+	text-align:center;
 }

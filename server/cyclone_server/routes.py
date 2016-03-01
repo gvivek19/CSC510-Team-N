@@ -17,6 +17,14 @@ routes = munge_route_list([
 	#VIEWS
     URLSpec(r'/', views.IndexHandler, name='home'),
     URLSpec(r'/main', views.DeadlinesHandler, name='main'),
+<<<<<<< HEAD
+    URLSpec(r'/ta_create_assignment',views.newAssignmentHandler),
+    URLSpec(r'/ta_stats',views.taStats),
+
+    #APIs
+    URLSpec(r'/login', api.LoginHandler)
+
+=======
     URLSpec(r'/mainta', views.DeadlinesTAHandler, name='mainta'),
     URLSpec(r'/assignment', views.AssignmentHandler, name='assignment'),
     
@@ -28,4 +36,5 @@ routes = munge_route_list([
     URLSpec(r'/assignments/([0-9]+)', api.AssignmentHandler),
     URLSpec(r'/evaluate/([0-9]+)', api.EvaluationHandler),
     URLSpec(r'/evaluate/submission/([0-9]+)', api.EvaluationSubmissionHandler)
+>>>>>>> f676b058794b4528a23cdd2e7396e53716c36f65
 ])

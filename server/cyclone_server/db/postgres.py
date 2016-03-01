@@ -150,5 +150,19 @@ class PostgresDatabase(object):
         defer.returnValue(data)
 
 
-
+    @defer.inlineCallbacks
+    def createCourse(data, user_id):
+        #Create the course first
+        data = yield self.connection.runQuery(query._CREATE_COURSE,
+                (data["code"], data["section"], data["name"], data["term"], data["year"]))
+        data = data[0]
+        #Add the instructor
+        status = yield self.connection.runQuery(query._CREATE_COURSE_USER, (data.id, user_id, "instructor"))
+        #Add TAs
+        for ta in data["tas"]:
+            status = yield self.connection.runQuery(query._CREATE_COURSE_USER, (data.id, ta, "ta"))
+        #Add Students
+        for student in data["students"]:
+            status = yield self.connection.runQuery(query._CREATE_COURSE_USER, (data.id, ta, "student"))
+        defer.returnValue(self.serialize_course(data))
 

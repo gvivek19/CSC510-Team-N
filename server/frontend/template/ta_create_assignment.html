@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Submit</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/bootstrap/jquery-ui.css" rel="stylesheet">
+   
+    <!-- Custom styles for this template -->
+    <!--link href="/static/bootstrap/base.css" rel="stylesheet"-->
+
+    <style type="text/css" id="holderjs-style"></style>
+  </head>
+
+  <body>    
+        <div class="row header">
+            <div class='col-md-2'>
+                <div class='logo-main'>SUBMIT</div>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-1">
+               Welcome, <span id="user-name-welcome"></span>
+            </div>
+            <div class="col-md-1">
+               <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-md-2'>
+                <div id="courses-list"></div>
+            </div>
+            <form name="login" method="POST" onSubmit="return login()">
+                
+                <div class="col-md-5">
+                <!-- CONTENT-->
+                    <div class="input-group input-group-lg">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Assignment Title">
+                    </div>
+                    <div class="input-group input-group-lg">
+                        <label for="description">Description</label>
+                        <textarea class="form-control description" id="description" rows="3" placeholder="Description"></textarea>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="btn btn-primary btn-file">
+                            Attach Questions <input type="file">
+                        </span>
+                        <input type="file" class="form-control-file" id="exampleInputFile">
+
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attachments-list"> Attachments </label>
+                        <!-- Should add feature to remove the attachments-->
+                        <div id="attachments-list"></div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group ">
+                            <label for="deadline">Deadline</label>
+                                
+                            <div class='input-group date input-group-lg col-md-6' id='deadline'>
+                                <input type='text' class="form-control input-group-lg" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="input-group input-group-lg">
+                            <label for="grade_max">Grade</label>
+                            <input type="text" class="form-control" id="grade_max" name="grade" placeholder="Grade">
+                        </div>
+
+                        <div class="btn-group input-group" role="group">
+                          <button type="button" class="btn btn-default">Individual</button>
+                          <button type="button" class="btn btn-default">Group</button>
+                          
+                        </div>
+
+
+                        <div>
+                            <label>Expected Attachments</label>
+                            <input type="text" class="form-control" id="expected_files" placeholder="Expected Files">
+                            <span class="help-block">
+                                Enter all the attachments expected in comma-separated format: '.pdf,.docx'
+                            </span>
+
+                        </div>
+                    
+                        <div class='error-div'></div>
+                        <div class="col-md-2 submitStyle">
+                            <input type="submit" name="new-assignment-submit" value="Submit" class='btn btn-primary btn-block'>
+                        </div>
+                 </div>
+             </form>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="/static/lib/jquery-1.12.1.min.js"></script>
+
+    <script src="/static/bootstrap/bootstrap.min.js"></script>
+    <script src="/static/lib/jquery-ui.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/ta_create_assignment.js"></script>
+    <script type="text/javascript" src="/static/lib/moment.js"></script>
+    <script type="text/javascript" src="/static/lib/bootstrap-datetimepicker.min.js"></script>    
+  
+ </body>
+ 
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Submit</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/bootstrap/jquery-ui.css" rel="stylesheet">
+   
+    <!-- Custom styles for this template -->
+    <!--link href="/static/bootstrap/base.css" rel="stylesheet"-->
+
+    <style type="text/css" id="holderjs-style"></style>
+  </head>
+
+  <body>    
+        <div class="row header">
+            <div class='col-md-2'>
+                <div class='logo-main'>SUBMIT</div>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-1">
+               Welcome, <span id="user-name-welcome"></span>
+            </div>
+            <div class="col-md-1">
+               <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-md-2'>
+                <div id="courses-list"></div>
+            </div>
+            <div class="col-md-10">
+                <!-- CONTENT-->
+                <div class="row">
+                	<div class="col-md-8" style="text-align: center">
+                		<label id="title">Title</label>
+                	</div>
+	                <div class="col-md-4">
+	                	<div class="btn-group input-group pull-right" role="group">
+	                          <button type="button" class="btn btn-default">Individual</button>
+	                          <button type="button" class="btn btn-default">Group</button>
+	                	</div>
+	                </div>
+	                
+	            </div>
+                <div class="input_group">
+                	<label>Total number of submissions</label>
+                	<label id="submissions_count">Hello</label>
+                </div>
+
+	                
+	            <div class="row">
+	            	<div class="col-md-6">
+	                	<div class="input_group">
+		                	<label>Mean</label>
+		                	<label id="mean_value">Hello</label>
+		                </div>
+		                <div class="input_group">
+		                	<label>Maximum</label>
+		                	<label id="max_value">Hello</label>
+		                </div>
+		            </div>
+	            	<div class="col-md-6">
+	                	<div class="input_group">
+		                	<label>Median</label>
+		                	<label id="median_value">Hello</label>
+		                </div>
+		                <div class="input_group">
+		                	<label>Minimum</label>
+		                	<label id="min_value">Hello</label>
+		                </div>
+		            </div>
+
+	            </div>
+		            
+	            <div class="row">
+	            	<div id="chart_div" style="margin:auto; width:70% "></div>	
+	            </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="/static/lib/jquery-1.12.1.min.js"></script>
+    <script src="/static/bootstrap/bootstrap.min.js"></script>
+    <script src="/static/lib/jquery-ui.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="static/js/ta_stats.js"></script>
+    
+
+    <script>
+        $(document).ready(function() {
+            var data = getCourses();
+            if(data.status) {
+                $.each(data.data, function(item) {
+                    var temp = data.data[item];
+                    var div = document.createElement("div");
+                    div.id = temp.id;
+                    $(div).html(temp.course_code + " : " + temp.course_name);
+                    $("#courses-list").append(div);
+                });
+            }
+        });
+    </script>
+  
+ </body>
+ 
+</html>
+
+
+
+
+
+  
+ 

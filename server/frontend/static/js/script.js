@@ -27,16 +27,19 @@ function getCourses() {
 	    	titleDiv.className = 'title_1';
 	    	$(titleDiv).html("Courses");
 	    	$("#courses-list").append(titleDiv);
-	    	
+
 	    	if(data.status) {
 	    		var total = data.data.length;
 	    		for(var i = 0 ; i < total ; i++) {
+	    			console.log(i);
 	    			var temp = data.data[i];
 	    			var div = document.createElement("div");
 	    			div.className = 'course_element';
 	    			$(div).attr("myid", temp.id);
+	    			$(div).attr("utype", temp.user_type);
+
 	    			$(div).on("click", function(id) {
-	    				deadlines_list_view($(this).attr('myid'));
+	    				deadlines_list_view($(this).attr('myid'), 'ta');
 	    			});
 	    			$(div).html('<b>' + temp.course_code + " : " + temp.course_name + "</b><br> Section : " + temp.section + "<br>" + temp.term + " " + temp.year);
 	    			$("#courses-list").append(div);

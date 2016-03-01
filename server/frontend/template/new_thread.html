@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>New Thread</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/bootstrap/jquery-ui.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <style type="text/css" id="holderjs-style"></style>
+            <link href="/server/frontend/static/css/main.css" rel="stylesheet">
+
+  </head>
+  <body>
+      <div class="row header">
+            <div class='col-md-2'>
+                <div class='logo-main'>SUBMIT</div>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-1">
+               Welcome, <span id="user-name-welcome"></span>
+            </div>
+            <div class="col-md-1">
+               <a href="/logout">Logout</a>
+            </div>
+        </div>
+      <div id="thread_form">
+        <form id="thread_form">
+        <b>Title</b>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;<input type="text" name="title" placeholder="Enter Title here"><br><br>
+        <b>Description</b>&nbsp;<textarea name="desc" placeholder="Enter your description here"></textarea><br>
+        <b>Visibility</b>&nbsp;<input type="radio" name="visibility" value="instructors">Instructor/TA&nbsp;
+        <input type="radio" name="visibility" value="all">All<br>
+        <input type="submit" name="Create">
+        </form>
+      </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/jquery-1.8.3.js"></script>
+    <script src="/static/bootstrap/bootstrap.js"></script>
+    <script src="/static/underscore.js"></script>
+    <script src="/static/ion.sound.js"></script>   
+    <script src="/static/jquery-ui.js"></script>    
+ </body>
+ 
+</html>

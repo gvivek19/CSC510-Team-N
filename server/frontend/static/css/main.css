@@ -97,3 +97,25 @@
 #assignment-main-div #submission-files {
 
 }
+#thread_form{
+    align-content: center;
+    text-align: center;
+    padding: 50px;
+    font-size: 20px;
+    top: 100px;
+    border-left: 100px;   
+        }
+#template_link{
+    text-align: right;
+        }
+#discussion{
+    font-size: 30px;
+    text-align: center;
+        }
+#question_heading{
+    font-size: 30px;
+    text-align: center;
+}
+#question_desc{
+    font-size: 20px;
+}

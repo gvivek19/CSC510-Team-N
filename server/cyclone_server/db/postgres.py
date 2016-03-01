@@ -7,7 +7,7 @@ class PostgresDatabase(object):
     def __init__(self, connection):
         self.connection = connection
 
-    def serialize_user(user):
+    def serialize_user(self, user):
         return {
                 "id": user.id,
                 "unity_id": user.unity_id,
@@ -15,7 +15,7 @@ class PostgresDatabase(object):
                 "lname": user.lname
         }
 
-    def serialize_course(course):
+    def serialize_course(self, course):
         return {
                 "id": course.id,
                 "course_code": course.course_code,
@@ -25,7 +25,7 @@ class PostgresDatabase(object):
                 "year": course.year
         }
 
-    def serialize_assignment(assignment):
+    def serialize_assignment(self, assignment):
         return {
                 "id": assignment.id,
                 "title": assignment.title,
@@ -37,7 +37,7 @@ class PostgresDatabase(object):
                 "course_id": assignment.course_id
         }
 
-    def serialize_submissions(submission):
+    def serialize_submissions(self, submission):
         return {
                 "id": submission.id,
                 "assignment_id": submission.question_id,
@@ -47,13 +47,13 @@ class PostgresDatabase(object):
                 "students": submission.students
         }
 
-    def serialize_attachment(attachment):
+    def serialize_attachment(self, attachment):
         return {
                 "id": attachment.id,
                 "filepath": attachment.file_path
         }
 
-    def serialize_assignment_submission_files(attachment):
+    def serialize_assignment_submission_files(self, attachment):
         return {
                 "id": attachment.id,
                 "filepath": attachment.file_path
@@ -134,10 +134,35 @@ class PostgresDatabase(object):
             res.append(self.serialize_submissions(row))
         defer.returnValue(res)
 
+    @defer.inlineCallbacks
+    def get_submission_files(submission_id):
+        members = yield self.connection.runQuery(query._GET_SUBMISSION_FILES, (submission_id))
+        res = []
+        for row in members:
+            res.append(self.serialize_assignment_submission_files(row))
+        defer.returnValue(res)
+
+    @defer.inlineCallbacks
+    def update_grade(submission_id, grade, status):
+        data = yield self.connection.runQuery(query._UPDATE_GRADE, (status, grade, submission_id))
+        if data:
+            data = data[0].id
+        defer.returnValue(data)
 
 
-
-
-
-
+    @defer.inlineCallbacks
+    def createCourse(data, user_id):
+        #Create the course first
+        data = yield self.connection.runQuery(query._CREATE_COURSE,
+                (data["code"], data["section"], data["name"], data["term"], data["year"]))
+        data = data[0]
+        #Add the instructor
+        status = yield self.connection.runQuery(query._CREATE_COURSE_USER, (data.id, user_id, "instructor"))
+        #Add TAs
+        for ta in data["tas"]:
+            status = yield self.connection.runQuery(query._CREATE_COURSE_USER, (data.id, ta, "ta"))
+        #Add Students
+        for student in data["students"]:
+            status = yield self.connection.runQuery(query._CREATE_COURSE_USER, (data.id, ta, "student"))
+        defer.returnValue(self.serialize_course(data))
 

@@ -30,6 +30,11 @@ class APIBase(cyclone.web.RequestHandler, DatabaseMixin):
             res['status'] = False
         return self.write_json(res)
 
+    def write_status(self, data):
+        if data:
+            return self.write_json({'status': True})
+        return self.write_json({'status': False})
+
 
 class LoginHandler(APIBase):
 
@@ -54,6 +59,13 @@ class CoursesHandler(APIBase):
     def get(self):
         courses = yield self.database.get_courses_by_user_id(self.user.id)
         defer.returnValue(self.write_data(courses))
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self):
+        data = json.loads(self.get_argument("data"))
+        res = yield self.database.createCourse(data, self.user.unity_id)
+        defer.returnValue(self.write_data(res))
 
 
 class DeadlinesHandler(APIBase):
@@ -81,6 +93,25 @@ class EvaluationHandler(APIBase):
     def get(self, assignment_id):
         submissions = yield self.database.get_submissions_by_assignment_id(assignment_id)
         defer.returnValue(self.write_data(submissions))
+
+
+class EvaluationSubmissionHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, submission_id):
+        files = yield self.database.get_submission_files(submission_id)
+        defer.returnValue(self.write_data(files))
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, submission_id):
+        grade = int(self.get_argument('total_marks', '0'))
+        data = yield self.database.update_grade(submission_id, grade, "Graded")
+        defer.returnValue(self.write_status(data))
+
+
+
 
 
 

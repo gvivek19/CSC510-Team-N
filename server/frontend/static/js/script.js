@@ -23,11 +23,28 @@ function getCourses() {
 	    },
 	    method : "GET",
 	    success : function(data) {
-	    	return data;
+	    	var titleDiv = document.createElement("div");
+	    	titleDiv.className = 'title_1';
+	    	$(titleDiv).html("Courses");
+	    	$("#courses-list").append(titleDiv);
+	    	
+	    	if(data.status) {
+	    		var total = data.data.length;
+	    		for(var i = 0 ; i < total ; i++) {
+	    			var temp = data.data[i];
+	    			var div = document.createElement("div");
+	    			div.className = 'course_element';
+	    			$(div).attr("myid", temp.id);
+	    			$(div).on("click", function(id) {
+	    				deadlines_list_view($(this).attr('myid'));
+	    			});
+	    			$(div).html('<b>' + temp.course_code + " : " + temp.course_name + "</b><br> Section : " + temp.section + "<br>" + temp.term + " " + temp.year);
+	    			$("#courses-list").append(div);
+	    		}
+	    	}
 	    },
 	    error : function(data) {
 	    	return {status:false};
 	    }
-	})
-	return {status:false};
+	});
 }

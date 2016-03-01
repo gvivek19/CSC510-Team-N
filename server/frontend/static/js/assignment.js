@@ -1,3 +1,7 @@
+function getAssignment() {
+
+}
+
 $(document).ready(function() {
     var course_id = 10;
     var assignmentid = 10;

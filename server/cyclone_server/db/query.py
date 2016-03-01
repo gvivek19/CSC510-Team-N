@@ -61,3 +61,6 @@ _CREATE_ASSIGNMENT =\
 
 _CREATE_ASSIGNMENT_FILE =\
 	'INSERT INTO assignment_files(assignment_id, file_type) VALUES (%s,%s) RETURNING *'
+
+_CREATE_ASSIGNMENT_ATTACHMENT =\
+	'INSERT INTO assignment_attachments(question_id, file_path) VALUES (%s,%s) RETURNING *'

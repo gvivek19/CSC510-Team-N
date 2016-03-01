@@ -204,3 +204,11 @@ class PostgresDatabase(object):
         for attachment in data["expected_files"]:
             status = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_FILE, (res.id, attachment))
         defer.returnValue(self.serialize_assignment(res))
+
+    @defer.inlineCallbacks
+    def create_assignment_attachment(self, assignment_id, file_path):
+        res = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_ATTACHMENT, (assignment_id, file_path))
+        defer.returnValue({"path": file_path})
+
+
+

@@ -1,8 +1,9 @@
 import functools
 import cyclone.web
 from twisted.internet import defer
-#import pwd
-#import grp
+import json
+import pwd
+import grp
 import os
 
 
@@ -11,7 +12,7 @@ def HTTPBasic(method):
     @functools.wraps(method)
     @defer.inlineCallbacks
     def wrapper(self, *args, **kwargs):
-        user_id = self.get_argument('_id', None)
+    	user_id = self.get_argument('_id', None)
         if not user_id:
             raise cyclone.web.HTTPAuthenticationRequired()
         self.user = yield self.database.get_user_by_id(user_id)
@@ -19,7 +20,7 @@ def HTTPBasic(method):
         defer.returnValue(result)
     return wrapper
 
-'''
+
 class FileUploadMixin(object):
     def _get_gid(self, gname):
         try:
@@ -47,29 +48,27 @@ class FileUploadMixin(object):
 
     def save_file(self, folder_name, file_id):
     	data_file = None
-        if 'files' in self.request.files:
+    	if 'files' in self.request.files:
             data_file = self.request.files[u'files'][0]
         else:
             data_file = self.request.files['Filedata'][0]
 
-        upload_dir = os.path.join("uploads", folder_name)
+        upload_dir = os.path.join("uploads", folder_name, str(file_id))
 
-        file_type = consts.MIMETYPE_MAP.get(data_file.content_type, None)
         if not os.path.exists(upload_dir):
             os.makedirs(upload_dir, 0755)
             self._chown(upload_dir)
         filename = data_file.filename.encode('utf-8').lower()
         fn, ext = os.path.splitext(filename)
         ext = ext.lower()
-        cnt = 0
-        filename = str(file_id) + ext
+        cnt = 1
+        filename = str(cnt) + ext
         while os.path.exists(os.path.join(upload_dir, filename)):
-            filename = '%s-%d%s' % (str(file_id), cnt, ext)
             cnt += 1
+            filename = str(cnt) + ext
         file_path = os.path.join(upload_dir, filename)
         with open(file_path, 'wb') as f:
             f.write(data_file['body'])
         self._chown(file_path)
         file_size = os.path.getsize(file_path)
-        return file_path, file_size, file_type
-'''
+        return file_path, file_size, ext

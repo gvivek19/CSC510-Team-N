@@ -2,7 +2,7 @@ import json
 from cyclone_server import config
 from twisted.internet import defer
 from cyclone_server.db.mixin import DatabaseMixin
-from cyclone_server.utils import HTTPBasic
+from cyclone_server.utils import HTTPBasic, FileUploadMixin
 import cyclone
 
 
@@ -90,6 +90,16 @@ class AssignmentHandler(APIBase):
     def post(self):
         assignment = yield self.database.create_assignment(json.loads(self.get_argument("data")))
         defer.returnValue(self.write_data(assignment))
+
+
+class AssignmentUploadHandler(APIBase, FileUploadMixin):
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, assignment_id):
+        file_path, file_size, file_type = self.save_file()
+        print "11111111111111"
+        print file_path
+        return
 
 
 class EvaluationHandler(APIBase):

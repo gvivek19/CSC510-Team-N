@@ -1,6 +1,8 @@
 import query
 import json
+import time
 from twisted.internet import defer
+from datetime import datetime
 
 
 class PostgresDatabase(object):
@@ -30,8 +32,8 @@ class PostgresDatabase(object):
                 "id": assignment.id,
                 "title": assignment.title,
                 "description": assignment.description,
-                "created": assignment.created,
-                "deadline": assignment.deadline,
+                "created": time.mktime(assignment.created.timetuple()),
+                "deadline": time.mktime(assignment.deadline.timetuple()),
                 "grade_max": assignment.grade_max,
                 "is_group": assignment.is_group,
                 "course_id": assignment.course_id
@@ -195,10 +197,10 @@ class PostgresDatabase(object):
 
     @defer.inlineCallbacks
     def create_assignment(self, data):
-        data = yield self.connection.runQuery(query._CREATE_ASSIGNMENT,
-                (data["title"], data["description"], data["deadline"], data["group"],
+        res = yield self.connection.runQuery(query._CREATE_ASSIGNMENT,
+                (data["title"], data["description"], datetime.fromtimestamp(data["deadline"]/1000), data["group"],
                     data["total"], data["course_id"]))
-        data = data[0]
+        res = res[0]
         for attachment in data["expected_files"]:
-            status = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_FILE, (data.id, attachment))
-        defer.returnValue(self.serialize_assignment(data))
+            status = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_FILE, (res.id, attachment))
+        defer.returnValue(self.serialize_assignment(res))

@@ -46,7 +46,7 @@ function save_assignment_details() {
 				title : $("#title").val(),
 				description : $("#description").val(),
 				deadline : date.getTime(),
-				group : $('.btn-group > .btn.active').html(),
+				group : ($('.btn-group > .btn.active').html() == "Group"),
 				total : $("#grade_max").val(),
 				expected_files : $("#expected_files").val().split(','),
 				course_id: course_id

@@ -85,6 +85,12 @@ class AssignmentHandler(APIBase):
         assignment = yield self.database.get_assignment_by_id(assignment_id, self.user.id)
         defer.returnValue(self.write_data(assignment))
 
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self):
+        assignment = yield self.database.create_assignment(json.loads(self.get_argument("data")))
+        defer.returnValue(self.write_data(assignment))
+
 
 class EvaluationHandler(APIBase):
 

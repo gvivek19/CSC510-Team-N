@@ -183,7 +183,7 @@ class PostgresDatabase(object):
         count = 1
         while count < data.grade_max:
             name = str(count) + "-" + str(count+ranges-1)
-            cc = len(filter(lambda a: a>=count&&a<count+ranges, grade))
+            cc = len(filter(lambda a: (a>=count and a<count+ranges), grade))
             res["graph"].append([name, cc])
             count += ranges
         defer.returnValue(res)
@@ -193,5 +193,12 @@ class PostgresDatabase(object):
         data = yield self.connection.runQuery(query._UPDATE_STATS, (is_visible, assignment_id))
         defer.returnValue(data)
 
-
-
+    @defer.inlineCallbacks
+    def create_assignment(self, data):
+        data = yield self.connection.runQuery(query._CREATE_ASSIGNMENT,
+                (data["title"], data["description"], data["deadline"], data["group"],
+                    data["total"], data["course_id"]))
+        data = data[0]
+        for attachment in data["expected_attachments"]:
+            status = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_FILE, (data.id, attachment))
+        defer.returnValue(self.serialize_assignment(data))

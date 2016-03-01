@@ -54,3 +54,10 @@ _GET_STATS =\
 
 _UPDATE_STATS =\
 	'UPDATE assignments SET is_visible=%s WHERE id=%s RETURNING *'
+
+_CREATE_ASSIGNMENT =\
+	'INSERT INTO assignments(title, description, deadline, is_group, grade_max, course_id)' \
+	' VALUES (%s,%s,%s,%s,%s,%s) RETURNING *'
+
+_CREATE_ASSIGNMENT_FILE =\
+	'INSERT INTO assignment_files(assignment_id, file_type) VALUES (%s,%s) RETURNING *'

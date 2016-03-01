@@ -1,4 +1,5 @@
 var file = 1;
+var course_id = 0;
 var subid;
 
 $(document).ready(function() {
@@ -6,6 +7,8 @@ $(document).ready(function() {
 	$('.btn-group > .btn').removeClass('active')    // Remove any existing active classes
 	$('.btn-group > .btn').eq(0).addClass('active')
 
+	course_id = getParameterByName('course_id');
+	
 	$("#create_assignment").on("click", function() {
 		save_assignment_details();
 	});
@@ -33,6 +36,7 @@ function show_upload_files_ui(id) {
 }
 
 function save_assignment_details() {
+	var date = new Date($("#deadline").data().date);
 	$.ajax({
 		url : '/assignments',
 		method : 'POST',
@@ -41,11 +45,11 @@ function save_assignment_details() {
 			data: JSON.stringify({
 				title : $("#title").val(),
 				description : $("#description").val(),
-				deadline : $("#deadline").data().date,
+				deadline : date.getTime(),
 				group : $('.btn-group > .btn.active').html(),
 				total : $("#grade_max").val(),
 				expected_files : $("#expected_files").val().split(','),
-				course_id: 1
+				course_id: course_id
 			})
 		},
 		success : function(data) {

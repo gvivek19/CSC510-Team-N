@@ -1,6 +1,5 @@
 var file = 1;
 var course_id = 0;
-var subid;
 
 $(document).ready(function() {
 	$('#deadline').datetimepicker();
@@ -20,7 +19,7 @@ function show_upload_files_ui(id) {
 	$(inp).attr("id", "fileupload" + file);
 	$(inp).attr("type", "file");
 	$(inp).attr("name", "files[]");
-	$(inp).attr("data-url", "/upload");
+	$(inp).attr("data-url", "/assignment/"+id+"/upload");
 	$(inp).attr("multiple", "");
 	$(inp).attr("_id", id);
 
@@ -56,8 +55,8 @@ function save_assignment_details() {
 			if(data.status) {
 				$("#old_content").hide();
 				$("#new_content").show();
-				subid = data.id;
-				show_upload_files_ui(data.id);
+				$("#save_assignment").attr("_id", data.data.id);
+				show_upload_files_ui(data.data.id);
 			}
 		},
 		error : function(data) {
@@ -68,5 +67,5 @@ function save_assignment_details() {
 }
 
 function redirect() {
-	window.location = '/assignments/' + subid;
+	window.location = '/assignments/' + $("#save_assignment").attr('_id');
 }

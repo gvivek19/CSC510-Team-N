@@ -38,3 +38,6 @@ _GET_SUBMISSIONS_BY_ASSIGNMENT_ID =\
 	'SELECT s.*, array_agg(u.unity_id) as students FROM submissions s INNER JOIN group_student_map gsm' \
 	' ON s.group_id=gsm.group_id INNER JOIN users u ON gsm.student_id=u.id' \
 	' GROUP BY s.id,s.question_id,s.grading_status,s.group_id,s.grade HAVING s.question_id=%s'
+
+_UPDATE_GRADE =\
+	'UPDATE submissions SET grading_status=%s, grade=%s WHERE id=%s RETURNING id'

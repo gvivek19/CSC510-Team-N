@@ -1,6 +1,7 @@
 from cyclone.web import URLSpec
 from cyclone_server import views
 from cyclone_server import api
+from cyclone.web import StaticFileHandler
 
 
 def munge_route_list(rl):
@@ -32,5 +33,8 @@ routes = munge_route_list([
     URLSpec(r'/assignments/([0-9]+)/upload', api.AssignmentUploadHandler),
     URLSpec(r'/evaluate/([0-9]+)', api.EvaluationHandler),
     URLSpec(r'/evaluate/submission/([0-9]+)', api.EvaluationSubmissionHandler),
-    URLSpec(r'/stats/([0-9]+)', api.StatsHandler)
+    URLSpec(r'/stats/([0-9]+)', api.StatsHandler),
+
+    #Static files
+    URLSpec(r'/uploads/(.*)', StaticFileHandler, {'path': 'uploads'}),
 ])

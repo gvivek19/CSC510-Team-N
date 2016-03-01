@@ -18,14 +18,14 @@ function show_upload_files_ui(id) {
 	$(inp).attr("class", "fileupload");
 	$(inp).attr("id", "fileupload" + file);
 	$(inp).attr("type", "file");
-	$(inp).attr("name", "files[]");
-	$(inp).attr("data-url", "/assignment/"+id+"/upload");
+	$(inp).attr("name", "files");
+	$(inp).attr("data-url", "/assignments/"+id+"/upload");
 	$(inp).attr("multiple", "");
 	$(inp).attr("_id", id);
 
 	$(inp).fileupload({
         dataType: 'json',
-        formData: {_id: getcookie(), assignment_id : $(this).attr("_id")},
+        formData: {_id: getcookie('_id'), assignment_id : $(this).attr("_id")},
         done: function (e, data) {
         	file = file + 1;
             show_upload_files_ui($(this).attr("_id"));

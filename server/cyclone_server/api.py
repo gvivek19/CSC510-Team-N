@@ -111,6 +111,22 @@ class EvaluationSubmissionHandler(APIBase):
         defer.returnValue(self.write_status(data))
 
 
+class StatsHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, assignment_id):
+        data = yield self.database.get_assignment_stats(assignment_id)
+        defer.returnValue(self.write_data(data))
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, assignment_id):
+        is_visible = self.get_argument('visibility', 'true')
+        is_visible = (is_visible == 'true')
+        data = yield self.database.update_visibility(assignment_id, is_visible)
+        defer.returnValue(self.write_status(data))
+
 
 
 

@@ -1,8 +1,8 @@
 import functools
 import cyclone.web
 from twisted.internet import defer
-import pwd
-import grp
+#import pwd
+#import grp
 import os
 
 
@@ -19,7 +19,7 @@ def HTTPBasic(method):
         defer.returnValue(result)
     return wrapper
 
-
+'''
 class FileUploadMixin(object):
     def _get_gid(self, gname):
         try:
@@ -72,3 +72,4 @@ class FileUploadMixin(object):
         self._chown(file_path)
         file_size = os.path.getsize(file_path)
         return file_path, file_size, file_type
+'''

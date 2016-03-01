@@ -2,7 +2,7 @@ import json
 from cyclone_server import config
 from twisted.internet import defer
 from cyclone_server.db.mixin import DatabaseMixin
-from cyclone_server.utils import HTTPBasic, FileUploadMixin
+from cyclone_server.utils import HTTPBasic
 import cyclone
 
 

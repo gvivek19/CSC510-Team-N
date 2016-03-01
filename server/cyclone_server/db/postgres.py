@@ -111,7 +111,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def get_assignment_members(assignment_id, user_id):
+    def get_assignment_members(self, assignment_id, user_id):
         members = yield self.connection.runQuery(query._GET_ASSIGNMENT_MEMBERS, (assignment_id, user_id))
         res = []
         for row in members:
@@ -119,7 +119,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def get_assignment_submission_files(assignment_id, user_id):
+    def get_assignment_submission_files(self, assignment_id, user_id):
         members = yield self.connection.runQuery(query._GET_ASSIGNMENT_SUBMISSION_FILES, (assignment_id, user_id))
         res = []
         for row in members:
@@ -127,7 +127,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def get_submissions_by_assignment_id(assignment_id):
+    def get_submissions_by_assignment_id(self, assignment_id):
         submissions = yield self.connection.runQuery(query._GET_SUBMISSIONS_BY_ASSIGNMENT_ID, (assignment_id,))
         res = []
         for row in members:
@@ -135,7 +135,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def get_submission_files(submission_id):
+    def get_submission_files(self, submission_id):
         members = yield self.connection.runQuery(query._GET_SUBMISSION_FILES, (submission_id))
         res = []
         for row in members:
@@ -143,7 +143,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def update_grade(submission_id, grade, status):
+    def update_grade(self, submission_id, grade, status):
         data = yield self.connection.runQuery(query._UPDATE_GRADE, (status, grade, submission_id))
         if data:
             data = data[0].id
@@ -151,7 +151,7 @@ class PostgresDatabase(object):
 
 
     @defer.inlineCallbacks
-    def createCourse(data, user_id):
+    def createCourse(self, data, user_id):
         #Create the course first
         data = yield self.connection.runQuery(query._CREATE_COURSE,
                 (data["code"], data["section"], data["name"], data["term"], data["year"]))
@@ -165,4 +165,33 @@ class PostgresDatabase(object):
         for student in data["students"]:
             status = yield self.connection.runQuery(query._CREATE_COURSE_USER, (data.id, ta, "student"))
         defer.returnValue(self.serialize_course(data))
+
+    @defer.inlineCallbacks
+    def get_assignment_stats(self, assignment_id):
+        data = yield self.connection.runQuery(query._GET_STATS, (assignment_id,))
+        data = data[0]
+        grade = data.grade
+        res = {"title": data.name,
+               "grade_min": 0,
+               "grade_max": data.grade_max,
+               "total_students": len(grade)}
+        new_grade = filter(lambda a: a!=0, grade)
+        res["total_submissions"] = len(new_grade)
+        res["marks"] = grade
+        res["graph"] = []
+        ranges = data.grade_max/10
+        count = 1
+        while count < data.grade_max:
+            name = str(count) + "-" + str(count+ranges-1)
+            cc = len(filter(lambda a: a>=count&&a<count+ranges, grade))
+            res["graph"].append([name, cc])
+            count += ranges
+        defer.returnValue(res)
+        
+    @defer.inlineCallbacks
+    def update_visibility(self, assignment_id, is_visible):
+        data = yield self.connection.runQuery(query._UPDATE_STATS, (is_visible, assignment_id))
+        defer.returnValue(data)
+
+
 

@@ -183,3 +183,34 @@
 	width:70%;
 	margin:auto;
 }
+
+#submissions {
+	height : 94%;
+	position:fixed;
+	width:8.33%;
+	overflow-y : scroll;
+}
+
+#files_list {
+	height : 94%;
+	position : fixed;
+	width : 8%;
+}
+
+.files-item {
+	padding:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border:1px solid black;
+}
+
+.submissions-item {
+	padding:3px;
+	border:1px solid black;
+}
+
+#file {
+	width : 66%;
+	position:fixed;
+	height : 75%;
+}

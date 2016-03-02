@@ -1,6 +1,8 @@
 import query
 import json
+import time
 from twisted.internet import defer
+from datetime import datetime
 
 
 class PostgresDatabase(object):
@@ -15,8 +17,8 @@ class PostgresDatabase(object):
                 "lname": user.lname
         }
 
-    def serialize_course(self, course):
-        return {
+    def serialize_course(self, course, is_type=False):
+        data = {
                 "id": course.id,
                 "course_code": course.course_code,
                 "course_name": course.name,
@@ -24,14 +26,17 @@ class PostgresDatabase(object):
                 "term": course.term,
                 "year": course.year
         }
+        if is_type:
+            data["type"] = course.type
+        return data
 
     def serialize_assignment(self, assignment):
         return {
                 "id": assignment.id,
                 "title": assignment.title,
                 "description": assignment.description,
-                "created": assignment.created,
-                "deadline": assignment.deadline,
+                "created": time.mktime(assignment.created.timetuple()),
+                "deadline": time.mktime(assignment.deadline.timetuple()),
                 "grade_max": assignment.grade_max,
                 "is_group": assignment.is_group,
                 "course_id": assignment.course_id
@@ -76,7 +81,7 @@ class PostgresDatabase(object):
         courses = yield self.connection.runQuery(query._GET_USER_COURSES, (user_id,))
         res = []
         for row in courses:
-            res.append(self.serialize_course(row))
+            res.append(self.serialize_course(row, True))
         defer.returnValue(res)
 
     @defer.inlineCallbacks
@@ -111,7 +116,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def get_assignment_members(assignment_id, user_id):
+    def get_assignment_members(self, assignment_id, user_id):
         members = yield self.connection.runQuery(query._GET_ASSIGNMENT_MEMBERS, (assignment_id, user_id))
         res = []
         for row in members:
@@ -119,7 +124,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def get_assignment_submission_files(assignment_id, user_id):
+    def get_assignment_submission_files(self, assignment_id, user_id):
         members = yield self.connection.runQuery(query._GET_ASSIGNMENT_SUBMISSION_FILES, (assignment_id, user_id))
         res = []
         for row in members:
@@ -127,7 +132,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def get_submissions_by_assignment_id(assignment_id):
+    def get_submissions_by_assignment_id(self, assignment_id):
         submissions = yield self.connection.runQuery(query._GET_SUBMISSIONS_BY_ASSIGNMENT_ID, (assignment_id,))
         res = []
         for row in members:
@@ -135,7 +140,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def get_submission_files(submission_id):
+    def get_submission_files(self, submission_id):
         members = yield self.connection.runQuery(query._GET_SUBMISSION_FILES, (submission_id))
         res = []
         for row in members:
@@ -143,7 +148,7 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def update_grade(submission_id, grade, status):
+    def update_grade(self, submission_id, grade, status):
         data = yield self.connection.runQuery(query._UPDATE_GRADE, (status, grade, submission_id))
         if data:
             data = data[0].id
@@ -151,7 +156,7 @@ class PostgresDatabase(object):
 
 
     @defer.inlineCallbacks
-    def createCourse(data, user_id):
+    def createCourse(self, data, user_id):
         #Create the course first
         data = yield self.connection.runQuery(query._CREATE_COURSE,
                 (data["code"], data["section"], data["name"], data["term"], data["year"]))
@@ -165,4 +170,48 @@ class PostgresDatabase(object):
         for student in data["students"]:
             status = yield self.connection.runQuery(query._CREATE_COURSE_USER, (data.id, ta, "student"))
         defer.returnValue(self.serialize_course(data))
+
+    @defer.inlineCallbacks
+    def get_assignment_stats(self, assignment_id):
+        data = yield self.connection.runQuery(query._GET_STATS, (assignment_id,))
+        data = data[0]
+        grade = data.grade
+        res = {"title": data.name,
+               "grade_min": 0,
+               "grade_max": data.grade_max,
+               "total_students": len(grade)}
+        new_grade = filter(lambda a: a!=0, grade)
+        res["total_submissions"] = len(new_grade)
+        res["marks"] = grade
+        res["graph"] = []
+        ranges = data.grade_max/10
+        count = 1
+        while count < data.grade_max:
+            name = str(count) + "-" + str(count+ranges-1)
+            cc = len(filter(lambda a: (a>=count and a<count+ranges), grade))
+            res["graph"].append([name, cc])
+            count += ranges
+        defer.returnValue(res)
+        
+    @defer.inlineCallbacks
+    def update_visibility(self, assignment_id, is_visible):
+        data = yield self.connection.runQuery(query._UPDATE_STATS, (is_visible, assignment_id))
+        defer.returnValue(data)
+
+    @defer.inlineCallbacks
+    def create_assignment(self, data):
+        res = yield self.connection.runQuery(query._CREATE_ASSIGNMENT,
+                (data["title"], data["description"], datetime.fromtimestamp(data["deadline"]/1000), data["group"],
+                    data["total"], data["course_id"]))
+        res = res[0]
+        for attachment in data["expected_files"]:
+            status = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_FILE, (res.id, attachment))
+        defer.returnValue(self.serialize_assignment(res))
+
+    @defer.inlineCallbacks
+    def create_assignment_attachment(self, assignment_id, file_path):
+        res = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_ATTACHMENT, (assignment_id, file_path))
+        defer.returnValue({"path": file_path})
+
+
 

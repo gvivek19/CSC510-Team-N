@@ -116,3 +116,4 @@ CREATE TABLE Feedback_thread(
 );
 
 ALTER TABLE assignments ADD COLUMN course_id INTEGER REFERENCES course;
+ALTER TABLE assignments ADD COLUMN is_visible BOOLEAN DEFAULT TRUE;

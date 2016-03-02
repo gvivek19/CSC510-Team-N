@@ -27,16 +27,19 @@ function getCourses() {
 	    	titleDiv.className = 'title_1';
 	    	$(titleDiv).html("Courses");
 	    	$("#courses-list").append(titleDiv);
-	    	
+
 	    	if(data.status) {
 	    		var total = data.data.length;
 	    		for(var i = 0 ; i < total ; i++) {
+	    			console.log(i);
 	    			var temp = data.data[i];
 	    			var div = document.createElement("div");
 	    			div.className = 'course_element';
 	    			$(div).attr("myid", temp.id);
+	    			$(div).attr("utype", temp.user_type);
+
 	    			$(div).on("click", function(id) {
-	    				deadlines_list_view($(this).attr('myid'));
+	    				getDeadlines(deadlines_list_view, $(this).attr('myid'));
 	    			});
 	    			$(div).html('<b>' + temp.course_code + " : " + temp.course_name + "</b><br> Section : " + temp.section + "<br>" + temp.term + " " + temp.year);
 	    			$("#courses-list").append(div);
@@ -47,4 +50,14 @@ function getCourses() {
 	    	return {status:false};
 	    }
 	});
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }

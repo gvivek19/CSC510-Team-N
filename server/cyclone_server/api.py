@@ -81,9 +81,24 @@ class AssignmentHandler(APIBase):
 
     @HTTPBasic
     @defer.inlineCallbacks
-    def get(self, assignment_id):
+    def get(self, assignment_id=None):
         assignment = yield self.database.get_assignment_by_id(assignment_id, self.user.id)
         defer.returnValue(self.write_data(assignment))
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self):
+        assignment = yield self.database.create_assignment(json.loads(self.get_argument("data")))
+        defer.returnValue(self.write_data(assignment))
+
+
+class AssignmentUploadHandler(APIBase, FileUploadMixin):
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, assignment_id):
+        file_path, file_size, file_type = self.save_file("assignment", assignment_id)
+        res = yield self.database.create_assignment_attachment(assignment_id, file_path)
+        defer.returnValue(self.write_data(res))
 
 
 class EvaluationHandler(APIBase):
@@ -110,6 +125,22 @@ class EvaluationSubmissionHandler(APIBase):
         data = yield self.database.update_grade(submission_id, grade, "Graded")
         defer.returnValue(self.write_status(data))
 
+
+class StatsHandler(APIBase):
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, assignment_id):
+        data = yield self.database.get_assignment_stats(assignment_id)
+        defer.returnValue(self.write_data(data))
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, assignment_id):
+        is_visible = self.get_argument('visibility', 'true')
+        is_visible = (is_visible == 'true')
+        data = yield self.database.update_visibility(assignment_id, is_visible)
+        defer.returnValue(self.write_status(data))
 
 
 

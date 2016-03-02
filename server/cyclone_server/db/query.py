@@ -5,7 +5,7 @@ _GET_USER_BY_ID =\
 	'SELECT * FROM Users WHERE id=%s'
 
 _GET_USER_COURSES =\
-	'SELECT c.* FROM course c INNER JOIN course_user_map cu ON c.id=cu.course_id WHERE cu.user_id=%s'
+	'SELECT c.*,cu.type FROM course c INNER JOIN course_user_map cu ON c.id=cu.course_id WHERE cu.user_id=%s'
 
 _GET_DEADLINES_BY_USER =\
 	'SELECT a.* FROM course c INNER JOIN course_user_map cu ON c.id=cu.course_id' \
@@ -47,3 +47,20 @@ _CREATE_COURSE =\
 
 _CREATE_COURSE_USER =\
 	'INSERT INTO course_user_map(course_id, user_id, type) VALUES (%s,(SELECT id FROM users WHERE unity_id=%s),%s) RETURNING *'
+
+_GET_STATS =\
+	'SELECT a.title as name, a.grade_max as grade_max, array_agg(s.grade) as grade FROM assignments a' \
+	' INNER JOIN submissions s ON a.id=s.question_id WHERE a.id=%s GROUP BY a.title,a.grade_max'
+
+_UPDATE_STATS =\
+	'UPDATE assignments SET is_visible=%s WHERE id=%s RETURNING *'
+
+_CREATE_ASSIGNMENT =\
+	'INSERT INTO assignments(title, description, deadline, is_group, grade_max, course_id)' \
+	' VALUES (%s,%s,%s,%s,%s,%s) RETURNING *'
+
+_CREATE_ASSIGNMENT_FILE =\
+	'INSERT INTO assignment_files(assignment_id, file_type) VALUES (%s,%s) RETURNING *'
+
+_CREATE_ASSIGNMENT_ATTACHMENT =\
+	'INSERT INTO assignment_attachments(question_id, file_path) VALUES (%s,%s) RETURNING *'

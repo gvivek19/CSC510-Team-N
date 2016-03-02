@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
 	getCourses();
-	getDeadlines(deadlines_list_view, null);
 	$("#deadlines-list").on("click", function() {
 		getDeadlines(deadlines_list_view, null);
 	});
@@ -21,6 +20,8 @@ function getDeadlines(funct, course) {
 	url = "";
 	if(course == null) {
 		url = "/deadlines";
+		course = -1;
+		courses[-1] = "student";
 	}
 	else {
 		url = "/deadlines/" + course;
@@ -33,7 +34,7 @@ function getDeadlines(funct, course) {
 			_id : getcookie('_id')
 		},
 		success : function(data) {
-			funct(data);
+			funct(data, course);
 		},
 		error : function(data) {
 			funct({status : false});
@@ -54,7 +55,8 @@ function sort(data) {
 	return data;
 }
 
-function deadlines_list_view(data, user_type) {
+function deadlines_list_view(data, course) {
+	user_type = courses[course];
 	$("#main-content").html('');
 
 	var deadlines_content_div = document.createElement("div");
@@ -105,7 +107,7 @@ function deadlines_list_view(data, user_type) {
 
 	if(user_type && (user_type == "ta" || user_type == "instructor")) {
 		var d = document.createElement("div");
-		$(d).html("<a href='./ta_create_assignment' class='btn btn-primary btn'>Create new assignment</a>");
+		$(d).html("<a href='./ta_create_assignment?course_id="+course+"' class='btn btn-primary btn'>Create new assignment</a>");
 		$("#main-content").append(d);
 	}
 
@@ -124,14 +126,14 @@ function deadlines_list_view(data, user_type) {
 				var div = document.createElement("div");
 				div.id = d.course_id;
 				div.className = 'deadline-list-item';
-				$(div).html("<div id='"+d.course_id+"'><b><a href='/assignment/"+d.id+"?_id="+getcookie('_id')+"'>" + d.title + "</a></b><span style='float:right;'>"+d.deadline+"</span></div><div>"+d.description+"</div>");
+				$(div).html("<div id='"+d.course_id+"'><b><a href='/assignment/"+d.id+"'>" + d.title + "</a></b><span style='float:right;'>"+d.deadline+"</span></div><div>"+d.description+"</div>");
 				$("#deadlines-past-content").append(div);
 			}
 			else {
 				var div = document.createElement("div");
 				div.className = 'deadline-list-item';
 				div.id = d.course_id;
-				$(div).html("<div id='"+d.course_id+"'><a href='/assignment/"+d.id+"?_id="+getcookie('_id')+"'>" + d.title + "</a><span style='float:right;'>"+d.deadline+"</span></div><div>"+d.description+"</div>");
+				$(div).html("<div id='"+d.course_id+"'><a href='/assignment/"+d.id+"'>" + d.title + "</a><span style='float:right;'>"+d.deadline+"</span></div><div>"+d.description+"</div>");
 				$("#deadlines-upcoming-content").append(div);
 			}
 		}

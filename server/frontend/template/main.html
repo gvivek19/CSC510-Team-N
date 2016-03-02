@@ -52,7 +52,43 @@
             </div>
         </div>
     </div>
+    <div id="overlay">
+        <div id="add_course_div">
+            <h1>Add course</h1>
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Course code</span>
+                <input id="course_code" type="input" name="course-code" class="form-control" placeholder="Course code">
+            </div>
+            
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Course name</span>
+                <input id="course_name" type="input" name="course-name" class="form-control" placeholder="Course name">
+            </div>
 
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Term</span>
+                <input id="term" type="input" name="term" class="form-control" placeholder="Term">
+            </div>
+
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Year</span>
+                <input id="year" type="input" name="year" class="form-control" placeholder="Year">
+            </div>
+
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Students</span>
+                <input id="students" type="input" name="students" class="form-control" placeholder="Students (comma separated list)">
+            </div>
+
+            <div class="input-group input-group">
+                <span class="input-group-addon" aria-hidden="true">Teaching Assistants</span>
+                <input id="tas" type="input" name="tas" class="form-control" placeholder="Teaching assistants (comma separated list)">
+            </div>
+
+            <input type="button" name="add-course" value="Add course" class='btn btn-primary btn' id="add_course_btn">
+            <input type="button" name="add-course" value="Cancel" class='btn btn-primary btn' id="cancel_course_btn">
+        </div>
+    </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -63,7 +99,9 @@
     <script src="/static/js/script.js"></script>
     <script src="/static/js/deadline.js"></script>
     <script>
-        
+        $(document).ready(function() {
+            getDeadlines(deadlines_list_view, null);
+        });
     </script>
   
  </body>

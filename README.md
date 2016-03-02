@@ -10,6 +10,8 @@ A homework submission system that is more intuitive and easier to use for both t
 
 [Contributors Page](https://github.com/gvivek19/CSC510-Team-N/graphs/contributors)
 
+[Server code](https://github.com/gvivek19/CSC510-Team-N/tree/master/server)
+
 Demo Slot Timing: Thursday, March 3rd, 4:00pm
 
 

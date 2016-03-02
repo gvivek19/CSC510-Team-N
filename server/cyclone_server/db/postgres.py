@@ -17,8 +17,8 @@ class PostgresDatabase(object):
                 "lname": user.lname
         }
 
-    def serialize_course(self, course):
-        return {
+    def serialize_course(self, course, is_type=False):
+        data = {
                 "id": course.id,
                 "course_code": course.course_code,
                 "course_name": course.name,
@@ -26,6 +26,9 @@ class PostgresDatabase(object):
                 "term": course.term,
                 "year": course.year
         }
+        if is_type:
+            data["type"] = course.type
+        return data
 
     def serialize_assignment(self, assignment):
         return {
@@ -78,7 +81,7 @@ class PostgresDatabase(object):
         courses = yield self.connection.runQuery(query._GET_USER_COURSES, (user_id,))
         res = []
         for row in courses:
-            res.append(self.serialize_course(row))
+            res.append(self.serialize_course(row, True))
         defer.returnValue(res)
 
     @defer.inlineCallbacks

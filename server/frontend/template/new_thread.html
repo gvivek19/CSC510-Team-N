@@ -32,13 +32,11 @@
             </div>
         </div>
       <div id="thread_form">
-        <form id="thread_form">
-        <b>Title</b>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;<input type="text" name="title" placeholder="Enter Title here"><br><br>
-        <b>Description</b>&nbsp;<textarea name="desc" placeholder="Enter your description here"></textarea><br>
-        <b>Visibility</b>&nbsp;<input type="radio" name="visibility" value="instructors">Instructor/TA&nbsp;
+        <b>Title</b>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;<input type="text" name="title" id="title" placeholder="Enter Title here"><br><br>
+        <b>Description</b>&nbsp;<textarea name="desc" id="desc" placeholder="Enter your description here"></textarea><br>
+        <b>Visibility</b>&nbsp;<input type="radio" name="visibility" id="visibility" value="instructors">Instructor/TA&nbsp;
         <input type="radio" name="visibility" value="all">All<br>
-        <input type="submit" name="Create">
-        </form>
+        <input type="button" id="new_thread" value="Create">
       </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->

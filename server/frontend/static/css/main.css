@@ -167,3 +167,19 @@
 	width:100%;
 	text-align:center;
 }
+
+.deadline-list-item {
+	padding:20px;
+	margin:10px;
+	border:1px solid black;
+}
+
+#deadlines-past-content {
+	width:70%;
+	margin:auto;
+}
+
+#deadlines-upcoming-content {
+	width:70%;
+	margin:auto;
+}

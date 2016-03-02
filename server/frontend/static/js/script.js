@@ -39,7 +39,7 @@ function getCourses() {
 	    			$(div).attr("utype", temp.user_type);
 
 	    			$(div).on("click", function(id) {
-	    				deadlines_list_view($(this).attr('myid'), 'ta');
+	    				getDeadlines(deadlines_list_view, $(this).attr('myid'));
 	    			});
 	    			$(div).html('<b>' + temp.course_code + " : " + temp.course_name + "</b><br> Section : " + temp.section + "<br>" + temp.term + " " + temp.year);
 	    			$("#courses-list").append(div);

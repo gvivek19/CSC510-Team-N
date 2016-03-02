@@ -124,14 +124,14 @@ function deadlines_list_view(data, user_type) {
 				var div = document.createElement("div");
 				div.id = d.course_id;
 				div.className = 'deadline-list-item';
-				$(div).html("<div id='"+d.course_id+"'><b><a href='/assignment/"+d.id'>" + d.title + "</a></b><span style='float:right;'>"+d.deadline+"</span></div><div>"+d.description+"</div>");
+				$(div).html("<div id='"+d.course_id+"'><b><a href='/assignment/"+d.id+"'>" + d.title + "</a></b><span style='float:right;'>"+d.deadline+"</span></div><div>"+d.description+"</div>");
 				$("#deadlines-past-content").append(div);
 			}
 			else {
 				var div = document.createElement("div");
 				div.className = 'deadline-list-item';
 				div.id = d.course_id;
-				$(div).html("<div id='"+d.course_id+"'><a href='/assignment/"+d.id'>" + d.title + "</a><span style='float:right;'>"+d.deadline+"</span></div><div>"+d.description+"</div>");
+				$(div).html("<div id='"+d.course_id+"'><a href='/assignment/"+d.id+"'>" + d.title + "</a><span style='float:right;'>"+d.deadline+"</span></div><div>"+d.description+"</div>");
 				$("#deadlines-upcoming-content").append(div);
 			}
 		}

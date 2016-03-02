@@ -135,7 +135,7 @@ class PostgresDatabase(object):
     def get_submissions_by_assignment_id(self, assignment_id):
         submissions = yield self.connection.runQuery(query._GET_SUBMISSIONS_BY_ASSIGNMENT_ID, (assignment_id,))
         res = []
-        for row in members:
+        for row in submissions:
             res.append(self.serialize_submissions(row))
         defer.returnValue(res)
 

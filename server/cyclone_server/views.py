@@ -30,3 +30,7 @@ class AssignmentHandler(cyclone.web.RequestHandler, DatabaseMixin):
 class EvaluateHandler(cyclone.web.RequestHandler, DatabaseMixin):
 	def get(self, assignment_id):
 		self.render("evaluate.html")
+
+class LogoutHandler(cyclone.web.RequestHandler):
+	def get(self):
+		self.redirect("/")

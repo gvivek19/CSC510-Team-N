@@ -12,9 +12,10 @@ def HTTPBasic(method):
     @functools.wraps(method)
     @defer.inlineCallbacks
     def wrapper(self, *args, **kwargs):
-    	user_id = self.get_argument('_id', None)
+        user_id = self.get_argument('_id', None)
         if not user_id:
             raise cyclone.web.HTTPAuthenticationRequired()
+        yield self.database.add_pagecount(user_id, type(self).__name__)
         self.user = yield self.database.get_user_by_id(user_id)
         result = yield defer.maybeDeferred(method, self, *args, **kwargs)
         defer.returnValue(result)

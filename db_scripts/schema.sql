@@ -117,3 +117,10 @@ CREATE TABLE Feedback_thread(
 
 ALTER TABLE assignments ADD COLUMN course_id INTEGER REFERENCES course;
 ALTER TABLE assignments ADD COLUMN is_visible BOOLEAN DEFAULT TRUE;
+
+CREATE TABLE PageCount(
+	id SERIAL PRIMARY KEY,
+	user_id INTEGER REFERENCES Users,
+	page VARCHAR(100),
+	visited_on TIMESTAMP DEFAULT utc_now()
+);

@@ -50,7 +50,7 @@ _CREATE_COURSE_USER =\
 
 _GET_STATS =\
 	'SELECT a.title as name, a.grade_max as grade_max, array_agg(s.grade) as grade FROM assignments a' \
-	' INNER JOIN submissions s ON a.id=s.question_id WHERE a.id=%s GROUP BY a.title,a.grade_max'
+	' INNER JOIN submissions s ON a.id=s.question_id WHERE a.id=%s AND grading_status = \'Graded\' GROUP BY a.title,a.grade_max'
 
 _UPDATE_STATS =\
 	'UPDATE assignments SET is_visible=%s WHERE id=%s RETURNING *'

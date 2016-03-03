@@ -104,6 +104,7 @@ function getAssignment(assignmentid) {
                     var type = courses[assignment.course_id];
                     if(type == "instructor" || type == "ta") {
                         $("#assignment-main-div").append("<a href='/evaluateAssignment/"+assignment.id+"' class='btn btn-primary btn-block'>Evaluate</a>")
+                        $("#assignment-main-div").append("<a href='/statistics/"+assignment.id+"' class='btn btn-primary btn-block'>View Statistics</a>")
                     }
                 }
                 //TODO: Discussion forums

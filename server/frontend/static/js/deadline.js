@@ -109,7 +109,7 @@ function deadlines_list_view(data, course) {
 
 	if(user_type && (user_type == "ta" || user_type == "instructor")) {
 		var d = document.createElement("div");
-		$(d).html("<a href='./ta_create_assignment?course_id="+course+"' class='btn btn-primary btn'>Create new assignment</a>");
+		$(d).html("<a href='/ta_create_assignment?course_id="+course+"' class='btn btn-primary btn'>Create new assignment</a>");
 		$("#main-content").append(d);
 	}
 

@@ -24,7 +24,7 @@
         assignment_title=data.title;
         visibility_status=data.status;
         submitted_count=data.total_submissions;
-        student_count=data.total_students;
+        total_students=data.total_students;
         score_list=data.marks;
         graph_data=data.graph;
 

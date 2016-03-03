@@ -234,13 +234,15 @@ class PostgresDatabase(object):
         defer.returnValue({"path": file_path})
 
     @defer.inlineCallbacks
-    def create_submission(assignment_id, user_id):
+    def create_submission(self, assignment_id, user_id):
         group_id = yield self.connection.runQuery(query._CREATE_GROUP, (assignment_id,))
         group_id = group_id[0].id
         yield self.connection.runQuery(query._CREATE_GROUP_USER, (group_id, user_id))
         sub_id = yield self.connection.runQuery(query._CREATE_SUBMISSION, (assignment_id, group_id))
         defer.returnValue(sub_id[0].id)
 
+    def add_pagecount(self, user_id, page):
+        return self.connection.runQuery(query._PAGE_COUNT, (user_id, page))
 
 
 

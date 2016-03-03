@@ -83,3 +83,6 @@ _CREATE_GROUP_USER =\
 
 _CREATE_SUBMISSION =\
 	'INSERT INTO submissions(question_id,group_id) VALUES (%s,%s) RETURNING id'
+
+_PAGE_COUNT =\
+	'INSERT INTO pagecount(user_id,page) VALUES (%s,%s) RETURNING *'

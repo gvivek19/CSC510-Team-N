@@ -40,7 +40,7 @@ class FileUploadMixin(object):
 
     def _chown(self, fname):
         #try:
-            uid = self._get_uid('gautam')
+            uid = self._get_uid('vivek')
             gid = self._get_gid('www-data')
             os.chown(fname, uid, gid)
             return True

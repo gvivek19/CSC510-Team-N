@@ -16,7 +16,7 @@ class newAssignmentHandler(cyclone.web.RequestHandler, DatabaseMixin):
 		self.render("ta_create_assignment.html")
 
 class taStats(cyclone.web.RequestHandler, DatabaseMixin):
-	def get(self):
+	def get(self, assignment_id):
 		self.render("ta_stats.html")
 
 class DeadlinesTAHandler(cyclone.web.RequestHandler, DatabaseMixin):

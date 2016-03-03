@@ -19,7 +19,7 @@ routes = munge_route_list([
     URLSpec(r'/', views.IndexHandler, name='home'),
     URLSpec(r'/main', views.DeadlinesHandler, name='main'),
     URLSpec(r'/ta_create_assignment',views.newAssignmentHandler),
-    URLSpec(r'/ta_stats',views.taStats),
+    URLSpec(r'/statistics/([0-9]+)',views.taStats),
     URLSpec(r'/mainta', views.DeadlinesTAHandler, name='mainta'),
     URLSpec(r'/assignment', views.AssignmentHandler, name='assignment'),
     URLSpec(r'/assignment/([0-9]+)', views.AssignmentHandler, name='assignment'),

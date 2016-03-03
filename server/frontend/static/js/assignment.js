@@ -42,11 +42,19 @@ function getAssignment(assignmentid) {
                     }
                     $("#team-members").show();
                 }
+
+                if(assignment.submission != null) {
+                    if(assignment.submission.grading_status == "Graded") {
+                        $(".value", "#assignment-details-grade").html(assignment.submission.grade);
+                        $("#grade").show();
+                    }
+                }
                 
                 $.each(assignment.expected_files, function(item) {
                     var expItem = assignment.expected_files[item];
                     var is_present = -1;
-                    for(k = 0 ; k < assignment.submission_files ; k++) {
+                    for(k = 0 ; k < assignment.submission_files.length ; k++) {
+                        console.log(assignment.submission_files[k].filepath, expItem);
                         if(assignment.submission_files[k].filepath.endsWith(expItem)) {
                             is_present = k;
                             assignment.expected_files.splice(item, 1);
@@ -66,6 +74,7 @@ function getAssignment(assignmentid) {
                         $(inp).attr("class", "fileupload");
                         $(inp).attr("type", "file");
                         $(inp).attr("name", "files");
+                        console.log(assignment.id);
                         $(inp).attr("data-url", "/submissions/"+assignment.submission_id+"/upload/"+assignment.id);
                         $(inp).attr("multiple", "");
                         $(inp).attr("_id", assignment.id);
@@ -83,6 +92,14 @@ function getAssignment(assignmentid) {
                     }
                 });
 
+                if(assignment.submission != null) {
+                    if(assignment.submission.grading_status == "Graded") {
+                        var stats = document.createElement("div");
+                        stats.id = 'assignment-stats';
+                        $(stats).html("<a href='/statistics/"+assignment.id+"' class='btn btn-primary btn-block'>View Statistis</a>");
+                        $("#assignment-main-div").append(stats);
+                    }
+                }
                 //TODO: Discussion forums
             }
         },

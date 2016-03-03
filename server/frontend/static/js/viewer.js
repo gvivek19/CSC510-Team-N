@@ -7960,6 +7960,7 @@ window.addEventListener('afterprint', function afterPrint(evt) {
 var pins = [];
 
 function isPinPresent(X, Y, page) {
+  console.log(pins);
   var total = pins.length;
   for(var i = 0 ; i < total ; i++) {
     if(pins[i][2] == page) 
@@ -7978,7 +7979,7 @@ function mouseEventHandler(event) {
 
     var i = isPinPresent(clickPosition[0], clickPosition[1], pageNumber)
     if(i >= 0) {
-      alert(pins[i][2]);
+      alert(pins[i][3]);
     }
     else {
       var canvas = document.getElementById("page" + pageNumber);

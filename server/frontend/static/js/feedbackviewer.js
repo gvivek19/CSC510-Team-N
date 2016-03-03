@@ -7960,6 +7960,7 @@ window.addEventListener('afterprint', function afterPrint(evt) {
 var pins = [];
 
 function isPinPresent(X, Y, page) {
+  console.log(pins);
   var total = pins.length;
   for(var i = 0 ; i < total ; i++) {
     if(pins[i][2] == page) 
@@ -7970,3 +7971,53 @@ function isPinPresent(X, Y, page) {
 
   return -1;
 }
+
+function mouseEventHandler(event) {
+  if(event.target.className != null && (event.target.className == "textLayer" ||  event.target.className == "endOfContent active")) {
+    var clickPosition = [event.offsetX, event.offsetY];
+    var pageNumber = PDFView.page;
+
+    var i = isPinPresent(clickPosition[0], clickPosition[1], pageNumber)
+    if(i >= 0) {
+      alert(pins[i][3]);
+    }
+    else {
+      var canvas = document.getElementById("page" + pageNumber);
+      var context = canvas.getContext("2d");
+
+      context.beginPath();
+      context.arc(clickPosition[0], clickPosition[1], 12, 0, 2 * Math.PI, false);
+      context.fillStyle = '#a60000';
+      context.fill();
+      context.lineWidth = 0;
+      context.strokeStyle = '#003300';
+      context.stroke();
+      clickPosition.push(pageNumber);
+      clickPosition.push(prompt("Enter the comment"));
+      pins.push(clickPosition);
+    }
+  }
+}
+
+$(document).ready(function() {
+  var i;
+  $("#save_button").on("click", function() {
+    console.log(pins);
+    $.ajax({
+      url : '/evaluate/file/' + getParameterByName('fileid'),
+      method : "POST",
+      data : {
+        _id : getcookie('_id'),
+        comment : JSON.stringify(pins)
+      },
+      success : function(data) {
+        if(data.success) {
+          alert("Saved successfully");
+        }
+      }
+    })
+  });
+  $(document).on('mousedown', function(event) {
+      mouseEventHandler(event);
+  });
+});

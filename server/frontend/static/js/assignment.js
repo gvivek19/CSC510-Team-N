@@ -54,7 +54,6 @@ function getAssignment(assignmentid) {
                     var expItem = assignment.expected_files[item];
                     var is_present = -1;
                     for(k = 0 ; k < assignment.submission_files.length ; k++) {
-                        console.log(assignment.submission_files[k].filepath, expItem);
                         if(assignment.submission_files[k].filepath.endsWith(expItem)) {
                             is_present = k;
                             assignment.expected_files.splice(item, 1);
@@ -65,6 +64,15 @@ function getAssignment(assignmentid) {
                     if(is_present >= 0) {
                         var tempDiv = document.createElement("div");
                         $(tempDiv).html("<a href='"+assignment.submission_files[k].filepath+"'>"+assignment.submission_files[k].name+"</a>");
+                        
+
+                        if(expItem == "pdf") {
+                            if(assignment.submission != null) {
+                                if(assignment.submission.grading_status == "Graded") {
+                                    $(tempDiv).append("<a href='/static/html/feedback_viewer.html?file="+assignment.submission_files[k].filepath+"&fileid="+assignment.submission_files[k].id+"' style='margin-left:3%; color:#a60000;'>View Feedback</a>");
+                                }
+                            }
+                        }
                         $("#assignment-files").append(tempDiv);
                     }
                     else {
@@ -92,12 +100,10 @@ function getAssignment(assignmentid) {
                     }
                 });
 
-                if(assignment.submission != null) {
-                    if(assignment.submission.grading_status == "Graded") {
-                        var stats = document.createElement("div");
-                        stats.id = 'assignment-stats';
-                        $(stats).html("<a href='/statistics/"+assignment.id+"' class='btn btn-primary btn-block'>View Statistis</a>");
-                        $("#assignment-main-div").append(stats);
+                if(assignment.course_id) {
+                    var type = courses[assignment.course_id];
+                    if(type == "instructor" || type == "ta") {
+                        $("#assignment-main-div").append("<a href='/evaluateAssignment/"+assignment.id+"' class='btn btn-primary btn-block'>Evaluate</a>")
                     }
                 }
                 //TODO: Discussion forums

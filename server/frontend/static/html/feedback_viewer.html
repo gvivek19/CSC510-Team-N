@@ -51,7 +51,6 @@ See https://github.com/adobe-type-tools/cmap-resources
   </head>
 
   <body tabindex="1" class="loadingInProgress">
-    <button id="save_button" class='btn btn-primary'>Save</button>
     <div id="outerContainer">
 
       <div id="sidebarContainer">
@@ -410,7 +409,10 @@ See https://github.com/adobe-type-tools/cmap-resources
     </div>
   </div>
 </div>
+<script src="/static/js/script.js"></script>
 <script>
+
+var pins = [];
 
 function mouseEventHandler(event) {
   if(event.target.className != null && (event.target.className == "textLayer" ||  event.target.className == "endOfContent active")) {
@@ -421,46 +423,54 @@ function mouseEventHandler(event) {
     if(i >= 0) {
       alert(pins[i][3]);
     }
-    else {
-      var canvas = document.getElementById("page" + pageNumber);
-      var context = canvas.getContext("2d");
-
-      context.beginPath();
-      context.arc(clickPosition[0], clickPosition[1], 12, 0, 2 * Math.PI, false);
-      context.fillStyle = '#a60000';
-      context.fill();
-      context.lineWidth = 0;
-      context.strokeStyle = '#003300';
-      context.stroke();
-      clickPosition.push(pageNumber);
-      clickPosition.push(prompt("Enter the comment"));
-      pins.push(clickPosition);
-    }
   }
 }
 
+function draw_pin(X, Y, page) {
+  var canvas = document.getElementById("page" + page);
+  var context = canvas.getContext("2d");
+
+  context.beginPath();
+  context.arc(X, Y, 12, 0, 2 * Math.PI, false);
+  context.fillStyle = '#a60000';
+  context.fill();
+  context.lineWidth = 0;
+  context.strokeStyle = '#003300';
+  context.stroke();
+}
+
+function draw_pins_for_page(pageNumber){
+    var i = 0;
+    for(i = 0 ; i < pins.length ; i++) {
+      var pin = pins[i];
+      if(pin[2] == pageNumber) {
+        draw_pin(pin[0], pin[1], pageNumber);
+      }
+    }
+}
+
 $(document).ready(function() {
-  var i;
-  $("#save_button").on("click", function() {
+    var file_id = getParameterByName("fileid");
     $.ajax({
-      url : '/evaluate/file/' + getParameterByName('fileid'),
-      method : "POST",
+      url : '/evaluate/file/' + file_id,
+      method : "GET",
       data : {
-        _id : getcookie('_id'),
-        comment : JSON.stringify(pins)
+        _id : getcookie('_id')
       },
       success : function(data) {
         if(data.status) {
-          alert("Saved successfully");
+          pins = data.data[0].comment;
+          pins = JSON.parse(pins);
         }
       }
     })
-  });
-  $(document).on('mousedown', function(event) {
-      mouseEventHandler(event);
-  });
-});
 
+    $(document).on("mousedown", mouseEventHandler);
+    document.addEventListener('pagerendered', function (e) {
+      var pageNumber = e.detail.pageNumber;
+      draw_pins_for_page(pageNumber);
+    });
+});
 </script>
   </body>
 </html>

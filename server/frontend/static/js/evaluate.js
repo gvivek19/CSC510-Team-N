@@ -19,7 +19,7 @@ function getFiles(sub_id, handler) {
 function save_feedback() {
     subid = $("#marks_submit").attr("submission_id");
     $.ajax({
-        url : "/evaluate/" + assignment_id + "/" + subid,
+        url : "/evaluate/submission/" + subid,
         method : "POST",
         data : {
             _id : getcookie('_id'),

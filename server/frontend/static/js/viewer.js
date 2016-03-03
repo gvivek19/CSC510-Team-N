@@ -7959,12 +7959,13 @@ window.addEventListener('afterprint', function afterPrint(evt) {
 
 var pins = [];
 
-function isPinPresent(X, Y) {
+function isPinPresent(X, Y, page) {
   var total = pins.length;
   for(var i = 0 ; i < total ; i++) {
-    if(X < (pins[i][0] + 12) && X > (pins[i][0] - 12))
-      if(Y < (pins[i][1] + 12) && Y > (pins[i][1] - 12))
-        return i;
+    if(pins[i][2] == page) 
+      if(X < (pins[i][0] + 12) && X > (pins[i][0] - 12))
+        if(Y < (pins[i][1] + 12) && Y > (pins[i][1] - 12))
+          return i;
   }
 
   return -1;
@@ -7975,7 +7976,7 @@ function mouseEventHandler(event) {
     var clickPosition = [event.offsetX, event.offsetY];
     var pageNumber = PDFView.page;
 
-    var i = isPinPresent(clickPosition[0], clickPosition[1])
+    var i = isPinPresent(clickPosition[0], clickPosition[1], pageNumber)
     if(i >= 0) {
       alert(pins[i][2]);
     }
@@ -7990,6 +7991,7 @@ function mouseEventHandler(event) {
       context.lineWidth = 0;
       context.strokeStyle = '#003300';
       context.stroke();
+      clickPosition.push(pageNumber);
       clickPosition.push(prompt("Enter the comment"));
       pins.push(clickPosition);
     }
@@ -7999,11 +8001,13 @@ function mouseEventHandler(event) {
 $(document).ready(function() {
   var i;
   $("#save_button").on("click", function() {
+    console.log(pins);
     $.ajax({
       url : '/evaluate/file/' + getParameterByName('fileid'),
+      method : "POST",
       data : {
         _id : getcookie('_id'),
-        data : pins
+        comment : JSON.stringify(pins)
       },
       success : function(data) {
         if(data.success) {

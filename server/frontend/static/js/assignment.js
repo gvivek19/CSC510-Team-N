@@ -12,6 +12,7 @@ function getAssignment(assignmentid) {
             var assignment = data;
             if(assignment.status) {
                 assignment = assignment.data;
+                $("#assignment-topic").attr("_id", assignment.id);
                 $("#assignment-topic").html(assignment.title);
                 $("#assignment-description").html(assignment.description);
                 $.each(assignment.attachments, function(item) {
@@ -21,7 +22,7 @@ function getAssignment(assignmentid) {
                 });
                 $(".value", "#assignment-details-deadline").html(assignment.deadline);
                 $(".value", "#assignment-details-graded-for").html(assignment.grade_max);
-                if(assignment.group) {
+                if(assignment.is_group) {
                     $(".value", "#assignment-details-group-yn").html("Group submission");
                 }
                 else {
@@ -35,32 +36,52 @@ function getAssignment(assignmentid) {
                 }
                 $(".value", "#assignment-details-submission-status").html(sub_status)
                                                                     .parent().parent().addClass(sub_color);
-                if(assignment.group == true) {
+                if(assignment.is_group == true) {
                     for(var i=0; i<assignment.members.length; i++){
                         $("#team-members").append("<h5>"+assignment.members[i]+"</h5>");
                     }
                     $("#team-members").show();
                 }
-                $.each(assignment.submission_files, function(item) {
-                    var val = assignment.submission_files[item];
-                    var inp = document.createElement("input");
-                    $(inp).attr("class", "fileupload");
-                    $(inp).attr("id", "fileupload" + file);
-                    $(inp).attr("type", "file");
-                    $(inp).attr("name", "files");
-                    $(inp).attr("data-url", "/submissions/"+assignment.submission_id+"/upload");
-                    $(inp).attr("multiple", "");
-                    $(inp).attr("_id", id);
-
-                    $(inp).fileupload({
-                        dataType: 'json',
-                        formData: {_id: getcookie(), assignment_id : $(this).attr("_id")},
-                        done: function (e, data) {
-                            file = file + 1;
-                            show_upload_files_ui($(this).attr("_id"));
+                
+                $.each(assignment.expected_files, function(item) {
+                    var expItem = assignment.expected_files[item];
+                    var is_present = -1;
+                    for(k = 0 ; k < assignment.submission_files ; k++) {
+                        if(assignment.submission_files[k].filepath.endsWith(expItem)) {
+                            is_present = k;
+                            assignment.expected_files.splice(item, 1);
+                            break;
                         }
-                    });
-                    $("#assignment-files").append(inp);
+                    }
+
+                    if(is_present >= 0) {
+                        var tempDiv = document.createElement("div");
+                        $(tempDiv).html("<a href='"+assignment.submission_files[k].filepath+"'>"+assignment.submission_files[k].name+"</a>");
+                        $("#assignment-files").append(tempDiv);
+                    }
+                    else {
+                        var div = document.createElement("div");
+                        var val = assignment.expected_files[item];
+                        var inp = document.createElement("input");
+                        $(inp).attr("class", "fileupload");
+                        $(inp).attr("type", "file");
+                        $(inp).attr("name", "files");
+                        $(inp).attr("data-url", "/submissions/"+assignment.submission_id+"/upload");
+                        $(inp).attr("multiple", "");
+                        $(inp).attr("_id", assignment.assignment_id);
+
+                        $(inp).fileupload({
+                            dataType: 'json',
+                            formData: {_id: getcookie("_id"), assignment_id : $(this).attr("_id")},
+                            done: function (e, data) {
+                                temp = window.location;
+                                window.location = temp;
+                            }
+                        });
+                        $(div).html("Expected file : <b>" + val + "</b>");
+                        $(div).append(inp);
+                        $("#assignment-files").append(div);
+                    }
                 });
 
                 //TODO: Discussion forums

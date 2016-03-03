@@ -66,10 +66,9 @@ function getAssignment(assignmentid) {
                         $(inp).attr("class", "fileupload");
                         $(inp).attr("type", "file");
                         $(inp).attr("name", "files");
-                        $(inp).attr("data-url", "/submissions/"+assignment.submission_id+"/upload");
+                        $(inp).attr("data-url", "/submissions/"+assignment.submission_id+"/upload/"+assignment.id);
                         $(inp).attr("multiple", "");
-                        $(inp).attr("_id", assignment.assignment_id);
-
+                        $(inp).attr("_id", assignment.id);
                         $(inp).fileupload({
                             dataType: 'json',
                             formData: {_id: getcookie("_id"), assignment_id : $(this).attr("_id")},

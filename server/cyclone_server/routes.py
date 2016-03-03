@@ -36,7 +36,7 @@ routes = munge_route_list([
     URLSpec(r'/evaluate/([0-9]+)', api.EvaluationHandler),
     URLSpec(r'/evaluate/submission/([0-9]+)', api.EvaluationSubmissionHandler),
     URLSpec(r'/evaluate/file/([0-9]+)', api.EvaluateFileHandler),
-    URLSpec(r'/submissions/([0-9]+)/upload', api.SubmissionUploadHandler),
+    URLSpec(r'/submissions/([0-9]+)/upload/([0-9]+)', api.SubmissionUploadHandler),
     URLSpec(r'/stats/([0-9]+)', api.StatsHandler),
 
     #Static files

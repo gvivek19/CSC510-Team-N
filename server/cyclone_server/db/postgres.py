@@ -43,14 +43,18 @@ class PostgresDatabase(object):
         }
 
     def serialize_submissions(self, submission):
-        return {
+        res = {
                 "id": submission.id,
                 "assignment_id": submission.question_id,
                 "grading_status": submission.grading_status,
                 "group_id": submission.group_id,
-                "grade": submission.grade,
-                "students": submission.students
+                "grade": submission.grade
         }
+        try:
+            res["students"] = submission.students
+        except Exception:
+            pass
+        return res
 
     def serialize_attachment(self, attachment):
         name = attachment.file_path.split("/")[-1]

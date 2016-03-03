@@ -1,3 +1,7 @@
+$(document).ready(function() {
+    
+});
+
 function getAssignment(assignmentid) {
     $.ajax({
         url : '/assignments/' + assignmentid,

@@ -72,7 +72,7 @@ _GET_EXPECTED_FILES =\
 	'SELECT * FROM assignment_files WHERE assignment_id=%s'
 
 _GET_SUB_ID =\
-	'SELECT id FROM submissions WHERE group_id=(SELECT g.id FROM groups g INNER JOIN group_student_map gm' \
+	'SELECT * FROM submissions WHERE group_id=(SELECT g.id FROM groups g INNER JOIN group_student_map gm' \
 	' ON g.id=gm.group_id INNER JOIN users us ON gm.student_id=us.id WHERE g.assignment_id=%s and us.id=%s)'
 
 _CREATE_GROUP =\
@@ -86,3 +86,9 @@ _CREATE_SUBMISSION =\
 
 _PAGE_COUNT =\
 	'INSERT INTO pagecount(user_id,page) VALUES (%s,%s) RETURNING *'
+
+_CREATE_FEEDBACK =\
+	'INSERT INTO feedback_thread(comment, posted_by, file_id) VALUES (%s,%s,%s) RETURNING *'
+
+_GET_FEEDBACK =\
+	'SELECT * FROM feedback_thread WHERE file_id=%s'

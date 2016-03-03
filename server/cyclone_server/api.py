@@ -154,6 +154,19 @@ class StatsHandler(APIBase):
         defer.returnValue(self.write_status(data))
 
 
+class EvaluateFileHandler(APIBase):
 
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def get(self, file_id):
+        data = yield self.database.get_feedback(file_id)
+        defer.returnValue(self.write_data(data))
+
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, file_id):
+        comment = self.get_argument("comment")
+        res = yield self.database.create_feedback(comment, self.user.id, file_id)
+        defer.returnValue(self.write_data(res))
 
 

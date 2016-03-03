@@ -124,3 +124,6 @@ CREATE TABLE PageCount(
 	page VARCHAR(100),
 	visited_on TIMESTAMP DEFAULT utc_now()
 );
+
+ALTER TABLE feedback_thread DROP COLUMN submission_id;
+ALTER TABLE feedback_thread ADD COLUMN file_id INTEGER REFERENCES submission_files;

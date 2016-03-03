@@ -68,6 +68,18 @@ class PostgresDatabase(object):
                 "name": name
         }
 
+    def serialize_feedback(self, feedback):
+        data = {
+                "id": feedback.id,
+                "comment": feedback.comment,
+                "posted_by": feedback.posted_by,
+                "created": feedback.created.strftime("%b %d, %Y %H:%M"),
+                "file_id": feedback.file_id
+        }
+        posted_by = self.get_user_by_id(data["posted_by"])
+        data["posted_by"] = self.serialize_user(posted_by)
+        return data
+
     @defer.inlineCallbacks
     def login_user(self, username, password):
         user = yield self.connection.runQuery(query._LOGIN_USER, (username, password))
@@ -114,7 +126,9 @@ class PostgresDatabase(object):
             assignment["submission_id"] = 0
         else:
             subs = yield self.connection.runQuery(query._GET_SUB_ID, (assignment["id"], user_id))
-            assignment["submission_id"] = subs[0].id
+            sub = subs[0]
+            assignment["submission_id"] = sub.id
+            assignment["submission"] = self.serialize_submissions(sub)
         defer.returnValue(assignment)
 
     @defer.inlineCallbacks
@@ -244,6 +258,20 @@ class PostgresDatabase(object):
     def add_pagecount(self, user_id, page):
         return self.connection.runQuery(query._PAGE_COUNT, (user_id, page))
 
+    @defer.inlineCallbacks
+    def create_feedback(self, comment, user_id, file_id):
+        res = yield self.connection.runQuery(query._CREATE_FEEDBACK, (comment, user_id, file_id))
+        res = res[0]
+        feedback = self.serialize_feedback(res)
+        defer.returnValue(feedback)
+
+    @defer.inlineCallbacks
+    def get_feedback(self, file_id):
+        members = yield self.connection.runQuery(query._GET_FEEDBACK, (file_id,))
+        res = []
+        for row in members:
+            res.append(self.serialize_feedback(row))
+        defer.returnValue(res)
 
 
 

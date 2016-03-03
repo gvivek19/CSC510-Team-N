@@ -45,7 +45,9 @@ function getDeadlines(funct, course) {
 function sort(data) {
 	for(i = 0 ; i < data.length ; i++) {
 		for(j = 0 ; j < data.length ; j++) {
-			if(data[i].deadline > data[j].deadline) {
+			var a = new Date(data[i].deadline).getTime();
+			var b = new Date(data[j].deadline).getTime();
+			if(a > b) {
 				temp = data[i];
 				data[i] = data[j];
 				data[j] = temp;
@@ -79,8 +81,8 @@ function deadlines_list_view(data, course) {
 	deadlines_upcoming_content.id = "deadlines-upcoming-content";
 
 	var deadlines_past_content = document.createElement("div");
-	deadlines_upcoming_content.id = "deadlines-past-content";
-	deadlines_upcoming_content.style.display = 'None';
+	deadlines_past_content.id = "deadlines-past-content";
+	deadlines_past_content.style.display = 'None';
 
 	$(deadlines_button_div).append(upcoming_button);
 	$(deadlines_button_div).append(past_button);
@@ -121,8 +123,9 @@ function deadlines_list_view(data, course) {
 
 		for(i = 0 ; i < total ; i++) {
 			var d = data.data[i];
-			
-			if(d.deadline < time) {
+			var t = new Date(d.deadline).getTime();
+			if(t < time) {
+				console.log("PAST");
 				var div = document.createElement("div");
 				div.id = d.course_id;
 				div.className = 'deadline-list-item';
@@ -130,6 +133,7 @@ function deadlines_list_view(data, course) {
 				$("#deadlines-past-content").append(div);
 			}
 			else {
+				console.log("UPCOMING");
 				var div = document.createElement("div");
 				div.className = 'deadline-list-item';
 				div.id = d.course_id;

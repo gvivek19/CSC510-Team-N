@@ -40,34 +40,37 @@
                 <div id="courses-list"></div>
             </div>
             <div class="col-md-10">
-                <div id="assignment-main-div">
-                    <div id="assignment-topic"></div>
-                    <div id="assignment-description"></div>
-                    <div id="assignment-attachments"></div>
-                    <div id="assignment-details">
-                        <table class="table table-bordered">
-                            <tr>
-                                <td><div class='title'>Deadline</div></td>
-                                <td><div id="assignment-details-deadline"><div class='value'></div></div></td>
-                            </tr>
-                            <tr>
-                                <td><div class='title'>Graded for</div></td>
-                                <td><div id="assignment-details-graded-for"><div class='value'></div></div></td>
-                            </tr>
-                            <tr>
-                                <td><div class='title'>Group?</div></td>
-                                <td><div id="assignment-details-group-yn"><div class='value'></div></div></td>
-                            </tr>
-                            <tr>
-                                <td><div class='title'>Submission status</div></td>
-                                <td><div id="assignment-details-submission-status"><div class='value'></div></div></td>
-                            </tr>
+                <div id="main-content">
+                    <div id="assignment-main-div">
+                        <div id="assignment-topic"></div>
+                        <div id="assignment-description"></div>
+                        <div id="assignment-attachments"></div>
+                        <div id="assignment-details">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td><div class='title'>Deadline</div></td>
+                                    <td><div id="assignment-details-deadline"><div class='value'></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class='title'>Graded for</div></td>
+                                    <td><div id="assignment-details-graded-for"><div class='value'></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class='title'>Group?</div></td>
+                                    <td><div id="assignment-details-group-yn"><div class='value'></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class='title'>Submission status</div></td>
+                                    <td><div id="assignment-details-submission-status"><div class='value'></div></div></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="assignment-files"></div>
                     </div>
-                    <div id="assignment-files"></div>
+                    <div id="team-members"></div>
+                    <div id="submission-files"></div>
+                    <div id="discussion-forum"></div>
                 </div>
-                <div id="team-members"></div>
-                <div id="submission-files"></div>
-                <div id="discussion-forum"></div>
             </div>
         </div>
     </div>
@@ -80,6 +83,9 @@
     <script src="/static/bootstrap/bootstrap.min.js"></script>
     <script src="/static/lib/jquery-ui.js"></script>
     <script src="/static/js/script.js"></script>
+    <script src="/static/js/jquery.ui.widget.js"></script>
+    <script src="/static/js/jquery.iframe-transport.js"></script>
+    <script src="/static/js/jquery.fileupload.js"></script>
 
     <script src="/static/js/deadline.js"></script>
     <script src="/static/js/assignment.js"></script>

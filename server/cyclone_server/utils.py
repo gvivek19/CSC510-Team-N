@@ -38,13 +38,13 @@ class FileUploadMixin(object):
             return pwd.getpwuid(os.getuid()).pw_uid
 
     def _chown(self, fname):
-        try:
+        #try:
             uid = self._get_uid('gautam')
             gid = self._get_gid('www-data')
             os.chown(fname, uid, gid)
             return True
-        except:
-            log.msg("_chown operation not permitted, exceptions.OSError")
+        #except:
+        #    log.msg("_chown operation not permitted, exceptions.OSError")
 
     def save_file(self, folder_name, file_id):
     	data_file = None

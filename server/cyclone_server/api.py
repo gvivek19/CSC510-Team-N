@@ -132,7 +132,8 @@ class EvaluationSubmissionHandler(APIBase):
     @defer.inlineCallbacks
     def post(self, submission_id):
         grade = int(self.get_argument('total_marks', '0'))
-        data = yield self.database.update_grade(submission_id, grade, "Graded")
+        time_taken = int(self.get_argument('time_taken', '0'))
+        data = yield self.database.update_grade(submission_id, grade, "Graded", time_taken)
         defer.returnValue(self.write_status(data))
 
 

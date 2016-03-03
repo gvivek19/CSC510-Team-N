@@ -127,3 +127,5 @@ CREATE TABLE PageCount(
 
 ALTER TABLE feedback_thread DROP COLUMN submission_id;
 ALTER TABLE feedback_thread ADD COLUMN file_id INTEGER REFERENCES submission_files;
+
+ALTER TABLE submissions ADD COLUMN time_taken INTEGER;

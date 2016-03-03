@@ -181,8 +181,8 @@ class PostgresDatabase(object):
         defer.returnValue(res)
 
     @defer.inlineCallbacks
-    def update_grade(self, submission_id, grade, status):
-        data = yield self.connection.runQuery(query._UPDATE_GRADE, (status, grade, submission_id))
+    def update_grade(self, submission_id, grade, status, time_taken=0):
+        data = yield self.connection.runQuery(query._UPDATE_GRADE, (status, grade, time_taken, submission_id))
         if data:
             data = data[0].id
         defer.returnValue(data)

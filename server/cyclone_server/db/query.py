@@ -40,7 +40,7 @@ _GET_SUBMISSIONS_BY_ASSIGNMENT_ID =\
 	' GROUP BY s.id,s.question_id,s.grading_status,s.group_id,s.grade HAVING s.question_id=%s'
 
 _UPDATE_GRADE =\
-	'UPDATE submissions SET grading_status=%s, grade=%s WHERE id=%s RETURNING id'
+	'UPDATE submissions SET grading_status=%s, grade=%s, time_taken=%s WHERE id=%s RETURNING id'
 
 _CREATE_COURSE =\
 	'INSERT INTO course(course_code, section, name, term, year) VALUES (%s,%s,%s,%s,%s) RETURNING *'

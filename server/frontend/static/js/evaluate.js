@@ -17,13 +17,17 @@ function getFiles(sub_id, handler) {
 }
 
 function save_feedback() {
+
+    window.clearInterval(window.timer)
+    
     subid = $("#marks_submit").attr("submission_id");
     $.ajax({
         url : "/evaluate/submission/" + subid,
         method : "POST",
         data : {
             _id : getcookie('_id'),
-            total_marks : $("#marks").val()
+            total_marks : $("#marks").val(),
+            time_taken: window.timing
         },
         error : function(data, status, error) {
             console.log("ERROR : " + data + error);
@@ -78,6 +82,8 @@ function load_files(submission_id) {
                 });
                 $("#files_list").append(div);
             }
+            window.timing = 0;
+            window.timer = setInterval(function(){window.timing += 1;}, 1000);
         }
     });
 }

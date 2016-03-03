@@ -47,7 +47,7 @@
                     		<label id="title">Title</label>
                     	</div>
     	                <div class="col-md-4">
-    	                	<div class="btn-group input-group pull-right" role="group">
+    	                	<div class="btn-group input-group pull-right" role="group" style="display:none;">
     	                          <button type="button" class="btn btn-default">Individual</button>
     	                          <button type="button" class="btn btn-default">Group</button>
     	                	</div>
@@ -101,23 +101,10 @@
     <script src="/static/lib/jquery-ui.js"></script>
     <script src="/static/js/script.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/static/js/script.js"></script>
     <script type="text/javascript" src="/static/js/ta_stats.js"></script>
-    
+    <script src="/static/js/deadline.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            var data = getCourses();
-            if(data.status) {
-                $.each(data.data, function(item) {
-                    var temp = data.data[item];
-                    var div = document.createElement("div");
-                    div.id = temp.id;
-                    $(div).html(temp.course_code + " : " + temp.course_name);
-                    $("#courses-list").append(div);
-                });
-            }
-        });
-    </script>
   
  </body>
  

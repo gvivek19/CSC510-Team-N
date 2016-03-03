@@ -115,3 +115,7 @@ function add_course() {
         $("#add_course_div").hide();
     });
 }
+
+$(function(){
+	$("#user-name-welcome").parent().hide();
+})

@@ -1,22 +1,26 @@
    
   $(document).ready(function() {
-    var score_list = [0];
-    var assignment_title='Here is your title';
-    var submitted_count=0;
-    var total_students=0;
+    window.score_list = [0];
+    window.assignment_title='Here is your title';
+    window.submitted_count=0;
+    window.total_students=0;
+
+    var url = window.location.href.split("/");
+    var ass_id = url[url.length-1];
+    refreshPage();
+
     $.ajax({
-    url : "/ta_stats",
+    url : "/stats/"+ass_id,
     method : "GET",
     data : {
-      _id:getcookie("_id"),
-      _assignment_id:getcookie("_assignment_id")
+      _id:getcookie("_id")
     },
     error : function(data, status, error) {
       console.log("ERROR : " + data + error);
     },
     success : function(data, status) {
-      var returnedData = data.status;
-      if(status == true) {
+      if(data.status) {
+        data = data.data;
         assignment_title=data.title;
         visibility_status=data.status;
         submitted_count=data.total_submissions;
@@ -26,54 +30,22 @@
 
         google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(drawDualY);
-        
+
+        refreshPage();
       }
       
     }
   });
-
-    addLoadEvent(function() {  
-      document.getElementById('title').innerHTML = assignment_title;
-    });  
-
-
-    addLoadEvent(function() {  
-      document.getElementById('submissions_count').innerHTML = submitted_count+'/'+total_students;
-    });  
-
-
-    addLoadEvent(function() {  
-      document.getElementById('mean_value').innerHTML = mean(score_list);
-    });  
-
-    addLoadEvent(function() {  
-      document.getElementById('median_value').innerHTML = median(score_list);
-    });  
-
-    addLoadEvent(function() {  
-      document.getElementById('min_value').innerHTML = Math.min.apply(Math,score_list);
-    });  
-
-    addLoadEvent(function() {  
-      document.getElementById('max_value').innerHTML = Math.max.apply(Math, score_list);
-    });  
-
-
  
 });
 
-function addLoadEvent(func) {  
-    var oldonload = window.onload;  
-    if (typeof window.onload != 'function') {  
-      window.onload = func;  
-    } else {  
-      window.onload = function() {  
-        if (oldonload) {  
-          oldonload();  
-        }  
-        func();  
-      }  
-    }  
+function refreshPage() {  
+  document.getElementById('title').innerHTML = assignment_title;
+  document.getElementById('submissions_count').innerHTML = submitted_count+'/'+total_students;
+  document.getElementById('mean_value').innerHTML = mean(score_list);
+  document.getElementById('median_value').innerHTML = median(score_list);
+  document.getElementById('min_value').innerHTML = Math.min.apply(Math,score_list);
+  document.getElementById('max_value').innerHTML = Math.max.apply(Math, score_list);
 }  
    
 function mean(values){

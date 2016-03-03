@@ -24,6 +24,7 @@ routes = munge_route_list([
     URLSpec(r'/assignment', views.AssignmentHandler, name='assignment'),
     URLSpec(r'/assignment/([0-9]+)', views.AssignmentHandler, name='assignment'),
     URLSpec(r'/evaluateAssignment/([0-9]+)', views.EvaluateHandler),
+    URLSpec(r'/logout', views.LogoutHandler),
     
     #APIs
     URLSpec(r'/login', api.LoginHandler),

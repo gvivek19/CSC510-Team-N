@@ -35,8 +35,8 @@ class PostgresDatabase(object):
                 "id": assignment.id,
                 "title": assignment.title,
                 "description": assignment.description,
-                "created": time.mktime(assignment.created.timetuple()),
-                "deadline": time.mktime(assignment.deadline.timetuple()),
+                "created": assignment.created.strftime("%b %d, %Y %H:%M"),
+                "deadline": assignment.deadline.strftime("%b %d, %Y %H:%M"),
                 "grade_max": assignment.grade_max,
                 "is_group": assignment.is_group,
                 "course_id": assignment.course_id
@@ -53,15 +53,19 @@ class PostgresDatabase(object):
         }
 
     def serialize_attachment(self, attachment):
+        name = attachment.file_path.split("/")[-1]
         return {
                 "id": attachment.id,
-                "filepath": attachment.file_path
+                "filepath": attachment.file_path,
+                "name": name
         }
 
     def serialize_assignment_submission_files(self, attachment):
+        name = attachment.file_path.split("/")[-1]
         return {
                 "id": attachment.id,
-                "filepath": attachment.file_path
+                "filepath": attachment.file_path,
+                "name": name
         }
 
     @defer.inlineCallbacks
@@ -105,7 +109,18 @@ class PostgresDatabase(object):
         assignment["attachments"] = yield self.get_assignment_attachments(assignment["id"])
         assignment["members"] = yield self.get_assignment_members(assignment["id"], user_id)
         assignment["submission_files"] = yield self.get_assignment_submission_files(assignment["id"], user_id)
+        assignment["expected_files"] = yield self.get_expected_files(assignment["id"])
+        if not assignment["submission_files"]:
+            assignment["submission_id"] = 0
+        else:
+            subs = yield self.connection.runQuery(query._GET_SUB_ID, (assignment["id"], user_id))
+            assignment["submission_id"] = subs[0].id
         defer.returnValue(assignment)
+
+    @defer.inlineCallbacks
+    def get_expected_files(self, assignment_id):
+        files = yield self.connection.runQuery(query._GET_EXPECTED_FILES, (assignment_id,))
+        defer.returnValue([x.file_type for x in files])
 
     @defer.inlineCallbacks
     def get_assignment_attachments(self, assignment_id):
@@ -212,6 +227,24 @@ class PostgresDatabase(object):
     def create_assignment_attachment(self, assignment_id, file_path):
         res = yield self.connection.runQuery(query._CREATE_ASSIGNMENT_ATTACHMENT, (assignment_id, file_path))
         defer.returnValue({"path": file_path})
+
+    @defer.inlineCallbacks
+    def create_submission_attachment(self, submission_id, file_path):
+        res = yield self.connection.runQuery(query._CREATE_SUBMISSION_ATTACHMENT, (submission_id, file_path))
+        defer.returnValue({"path": file_path})
+
+    @defer.inlineCallbacks
+    def create_submission(assignment_id, user_id):
+        group_id = yield self.connection.runQuery(query._CREATE_GROUP, (assignment_id,))
+        group_id = group_id[0].id
+        yield self.connection.runQuery(query._CREATE_GROUP_USER, (group_id, user_id))
+        sub_id = yield self.connection.runQuery(query._CREATE_SUBMISSION, (assignment_id, group_id))
+        defer.returnValue(sub_id[0].id)
+
+
+
+
+
 
 
 

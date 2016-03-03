@@ -22,6 +22,7 @@ routes = munge_route_list([
     URLSpec(r'/ta_stats',views.taStats),
     URLSpec(r'/mainta', views.DeadlinesTAHandler, name='mainta'),
     URLSpec(r'/assignment', views.AssignmentHandler, name='assignment'),
+    URLSpec(r'/assignment/([0-9]+)', views.AssignmentHandler, name='assignment'),
     
     #APIs
     URLSpec(r'/login', api.LoginHandler),
@@ -33,6 +34,7 @@ routes = munge_route_list([
     URLSpec(r'/assignments/([0-9]+)/upload', api.AssignmentUploadHandler),
     URLSpec(r'/evaluate/([0-9]+)', api.EvaluationHandler),
     URLSpec(r'/evaluate/submission/([0-9]+)', api.EvaluationSubmissionHandler),
+    URLSpec(r'/submissions/([0-9]+)/upload', api.SubmissionUploadHandler),
     URLSpec(r'/stats/([0-9]+)', api.StatsHandler),
 
     #Static files

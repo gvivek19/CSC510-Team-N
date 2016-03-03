@@ -64,3 +64,22 @@ _CREATE_ASSIGNMENT_FILE =\
 
 _CREATE_ASSIGNMENT_ATTACHMENT =\
 	'INSERT INTO assignment_attachments(question_id, file_path) VALUES (%s,%s) RETURNING *'
+
+_CREATE_SUBMISSION_ATTACHMENT =\
+	'INSERT INTO submission_files(submission_id, file_path) VALUES (%s,%s) RETURNING *'
+
+_GET_EXPECTED_FILES =\
+	'SELECT * FROM assignment_files WHERE assignment_id=%s'
+
+_GET_SUB_ID =\
+	'SELECT id FROM submissions WHERE group_id=(SELECT g.id FROM groups g INNER JOIN group_student_map gm' \
+	' ON g.id=gm.group_id INNER JOIN users us ON gm.student_id=us.id WHERE g.assignment_id=%s and us.id=%s)'
+
+_CREATE_GROUP =\
+	'INSERT INTO  groups(assignment_id) VALUES (%s) RETURNING id'
+
+_CREATE_GROUP_USER =\
+	'INSERT INTO group_student_map(group_id,student_id) VALUES (%s,%s) RETURNING *'
+
+_CREATE_SUBMISSION =\
+	'INSERT INTO submissions(question_id,group_id) VALUES (%s,%s) RETURNING id'

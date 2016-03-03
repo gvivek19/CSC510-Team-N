@@ -71,4 +71,5 @@ class FileUploadMixin(object):
             f.write(data_file['body'])
         self._chown(file_path)
         file_size = os.path.getsize(file_path)
+        file_path = "/" + file_path
         return file_path, file_size, ext

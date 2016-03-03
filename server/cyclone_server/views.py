@@ -24,7 +24,7 @@ class DeadlinesTAHandler(cyclone.web.RequestHandler, DatabaseMixin):
 		self.render("mainta.html")
 
 class AssignmentHandler(cyclone.web.RequestHandler, DatabaseMixin):
-	def get(self):
+	def get(self, assignment_id=None):
 		self.render("assignment.html")
 
 class EvaluateHandler(cyclone.web.RequestHandler, DatabaseMixin):

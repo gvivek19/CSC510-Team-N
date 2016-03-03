@@ -101,6 +101,17 @@ class AssignmentUploadHandler(APIBase, FileUploadMixin):
         defer.returnValue(self.write_data(res))
 
 
+class SubmissionUploadHandler(APIBase, FileUploadMixin):
+    @HTTPBasic
+    @defer.inlineCallbacks
+    def post(self, submission_id):
+        if submission_id == 0:
+            assignment_id = self.get_argument("assignment_id")
+            submission_id = yield self.database.create_submission(assignment_id, self.user.id)
+        file_path, file_size, file_type = self.save_file("submission", submission_id)
+        res = yield self.database.create_submission_attachment(submission_id, file_path)
+        defer.returnValue(self.write_data(res))
+
 class EvaluationHandler(APIBase):
 
     @HTTPBasic

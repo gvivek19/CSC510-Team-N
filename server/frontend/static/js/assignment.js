@@ -4,29 +4,41 @@ $(document).ready(function() {
 
 function getAssignment(assignmentid) {
     $.ajax({
-        url : 'assignments/' + assignmentid,
+        url : '/assignments/' + assignmentid,
         data : {
             _id : getcookie('_id')
         },
         success : function(data) {
             var assignment = data;
             if(assignment.status) {
-                $("#assignment-topic").html(assignment.topic);
+                assignment = assignment.data;
+                $("#assignment-topic").html(assignment.title);
                 $("#assignment-description").html(assignment.description);
                 $.each(assignment.attachments, function(item) {
                     var item_div = document.createElement("div");
-                    $(item_div).html("<a href='"+assignment.attachments[item].link+"'>"+assignment.attachments[item].filename+"</a>")
+                    $(item_div).html("<a href='"+assignment.attachments[item].filepath+"' target='_blank'>"+assignment.attachments[item].name+"</a>");
+                    $("#assignment-attachments").append(item_div);
                 });
                 $(".value", "#assignment-details-deadline").html(assignment.deadline);
-                $(".value", "#assignment-details-graded-for").html(assignment.total);
+                $(".value", "#assignment-details-graded-for").html(assignment.grade_max);
                 if(assignment.group) {
                     $(".value", "#assignment-details-group-yn").html("Group submission");
                 }
                 else {
                     $(".value", "#assignment-details-group-yn").html("Individual submission");
                 }
-                $(".value", "#assignment-details-submission-status").html(assignment.status);
+                var sub_status = "Not submitted";
+                var sub_color = "danger";
+                if(assignment.submission_files.length == assignment.expected_files.length){
+                    sub_status = "Submitted for evaluation";
+                    sub_color = "success";
+                }
+                $(".value", "#assignment-details-submission-status").html(sub_status)
+                                                                    .parent().parent().addClass(sub_color);
                 if(assignment.group == true) {
+                    for(var i=0; i<assignment.members.length; i++){
+                        $("#team-members").append("<h5>"+assignment.members[i]+"</h5>");
+                    }
                     $("#team-members").show();
                 }
                 $.each(assignment.submission_files, function(item) {
@@ -35,8 +47,8 @@ function getAssignment(assignmentid) {
                     $(inp).attr("class", "fileupload");
                     $(inp).attr("id", "fileupload" + file);
                     $(inp).attr("type", "file");
-                    $(inp).attr("name", "files[]");
-                    $(inp).attr("data-url", "/upload");
+                    $(inp).attr("name", "files");
+                    $(inp).attr("data-url", "/submissions/"+assignment.submission_id+"/upload");
                     $(inp).attr("multiple", "");
                     $(inp).attr("_id", id);
 
@@ -61,8 +73,8 @@ function getAssignment(assignmentid) {
 }
 
 $(document).ready(function() {
-    var course_id = 10;
-    var assignmentid = 10;
+    var parseUrl = window.location.href.split("/")
+    var assignmentid = parseUrl[parseUrl.length-1];
     getAssignment(assignmentid);
     
 });

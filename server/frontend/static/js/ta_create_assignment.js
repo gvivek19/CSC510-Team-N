@@ -67,5 +67,5 @@ function save_assignment_details() {
 }
 
 function redirect() {
-	window.location = '/assignments/' + $("#save_assignment").attr('_id');
+	window.location = '/assignment/' + $("#save_assignment").attr('_id');
 }

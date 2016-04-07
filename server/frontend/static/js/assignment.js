@@ -102,9 +102,12 @@ function getAssignment(assignmentid) {
 
                 if(assignment.course_id) {
                     var type = courses[assignment.course_id];
-                    if(type == "instructor" || type == "ta") {
+                    if(type == "instructor" ) {
                         $("#assignment-main-div").append("<a href='/evaluateAssignment/"+assignment.id+"' class='btn btn-primary btn-block'>Evaluate</a>")
                         $("#assignment-main-div").append("<a href='/statistics/"+assignment.id+"' class='btn btn-primary btn-block'>View Statistics</a>")
+                    }
+                    else if(type == "ta") {
+                        $("#assignment-main-div").append("<a href='/evaluateAssignment/"+assignment.id+"' class='btn btn-primary btn-block'>Evaluate</a>")
                     }
                 }
                 //TODO: Discussion forums

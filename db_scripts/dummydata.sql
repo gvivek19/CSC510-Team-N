@@ -1,3 +1,12 @@
+delete from feedback_thread;
+delete from pagecount;
+delete from submission_files;
+delete from submissions;
+delete from group_student_map;
+delete from groups;
+delete from assignment_files;
+delete from assignment_attachments;
+delete from assignments;
 delete from course_user_map;
 delete from users;
 delete from course;

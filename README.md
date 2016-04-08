@@ -12,18 +12,8 @@ A homework submission system that is more intuitive and easier to use for both t
 
 [Server code](https://github.com/gvivek19/CSC510-Team-N/tree/master/server)
 
-Telemetry: We record the following metrics to evaluate the solutions implemented
+[Presentation](http://bit.ly/1oHpEtB)
 
-1. Page view count: Number of times the user has visited a page. 
-
-2. Action time: Time taken to perform an action (assignment evaluation,assignment creation and submission) by the user.
-
-3. Thread count: The number of discussion threads and comments for an assignment.
-
-4. Server logs
-
-We can perform various analytics with the above telemetry.
-
-Demo Slot Timing: Thursday, March 3rd, 4:00pm
+[Report](https://github.com/gvivek19/CSC510-Team-N/tree/master/FinalReport.pdf)
 
 

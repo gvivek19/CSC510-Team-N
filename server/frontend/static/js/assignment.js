@@ -30,8 +30,6 @@ function getAssignment(assignmentid) {
                 }
                 var sub_status = "Not submitted";
                 var sub_color = "danger";
-                console.log(assignment.submission_files);
-                console.log(assignment.submission_files.length, assignment.expected_files.length);
                 if(assignment.submission_files.length >= assignment.expected_files.length){
                     sub_status = "Submitted for evaluation";
                     sub_color = "success";
@@ -54,7 +52,6 @@ function getAssignment(assignmentid) {
                 
                 $.each(assignment.expected_files, function(item) {
                     var expItem = assignment.expected_files[item];
-                    console.log(expItem);
                     var is_present = -1;
                     for(k = 0 ; k < assignment.submission_files.length ; k++) {
                         if(assignment.submission_files[k].filepath.endsWith(expItem)) {
@@ -80,29 +77,41 @@ function getAssignment(assignmentid) {
                         assignment.submission_files.splice(k, 1);
                     }
                     else {
-                        var div = document.createElement("div");
-                        var val = assignment.expected_files[item];
-                        var inp = document.createElement("input");
-                        $(inp).attr("class", "fileupload");
-                        $(inp).attr("type", "file");
-                        $(inp).attr("name", "files");
-                        $(inp).attr("data-url", "/submissions/"+assignment.submission_id+"/upload/"+assignment.id);
-                        $(inp).attr("multiple", "");
-                        $(inp).attr("expected", val);
-                        $(inp).attr("allowed", "false");
-                        $(inp).attr("_id", assignment.id);
-                        $(inp).fileupload({
-                            dataType: 'json',
-                            acceptFileTypes: /(\.|\/)($(this).attr("expected"))$/i,
-                            formData: {_id: getcookie("_id"), assignment_id : $(this).attr("_id")},
-                            done: function (e, data) {
-                                temp = window.location;
-                                window.location = temp;
-                            }
-                        });
-                        $(div).html("Expected file : <b>" + val + "</b>");
-                        $(div).append(inp);
-                        $("#assignment-files").append(div);
+                        (function(assignment) {
+                            var div = document.createElement("div");
+                            var val = assignment.expected_files[item];
+                            var inp = document.createElement("input");
+                            $(inp).attr("class", "fileupload");
+                            $(inp).attr("type", "file");
+                            $(inp).attr("name", "files");
+                            $(inp).attr("data-url", "/submissions/"+assignment.submission_id+"/upload/"+assignment.id);
+                            $(inp).attr("multiple", "");
+                            $(inp).attr("expected", val);
+                            $(inp).attr("allowed", "false");
+                            $(inp).attr("_id", assignment.id);
+                            $(inp).fileupload({
+                                dataType: 'json',
+                                add: function(e, data) {
+                                    var uploadErrors = [];
+                                    var acceptFileTypes = new RegExp("(.*?)\.("+$(inp).attr("expected")+")$");
+                                    if(!acceptFileTypes.test(data.originalFiles[0]['name'])) {
+                                        uploadErrors.push('Not an accepted file type');
+                                    }
+                                    if(uploadErrors.length > 0) {
+                                    } else {
+                                        data.submit();
+                                    }
+                                },
+                                formData: {_id: getcookie("_id"), assignment_id : $(this).attr("_id")},
+                                done: function (e, data) {
+                                    temp = window.location;
+                                    window.location = temp;
+                                }
+                            });
+                            $(div).html("Expected file : <b>" + val + "</b>");
+                            $(div).append(inp);
+                            $("#assignment-files").append(div);
+                        })(assignment);
                     }
                 });
 

@@ -70,6 +70,7 @@ function load_file(path, fileid) {
 function load_files(submission_id) {
     getFiles(submission_id, function(files) {
         if(files.status) {
+            $("#files_list").html("");
             var total = files.data.length;
             for(var i = 0 ; i < total ; i++) {
                 var div = document.createElement("div");

@@ -25,7 +25,7 @@ import json
 import re,datetime,sys
 
 
-token = "92bd046a2bf3a0500f5f159627e418bc15bcda8f"
+token = xsss
 
 
 users = dict()
@@ -142,6 +142,9 @@ def dump1(u,issues):
                  "what": label_name,
                  "user": anonymize(user),
                  "milestone": milestone}
+    if action == 'assigned' or action == 'unassigned':
+      eventObj["assignee"] = anonymize(event['assignee']['login'])
+      eventObj["assigner"] = anonymize(event['assigner']['login'])
     all_events = issues.get(issue_id)
     if not all_events: all_events = []
     all_events.append(eventObj)

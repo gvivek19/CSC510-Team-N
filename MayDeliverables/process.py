@@ -192,7 +192,37 @@ def process_13():
 				milestones[ms[0]] += 1
 		graph.bar_chart(milestones.values(), title="Issues/Milestone for project "+item)
 
+#general count stats
+def count_stats():
+	issue = 0
+	commit = 0
+	comment = 0
+	milestone = 0
+	for item in files:
+		print item
+		issue_data = read.get_issues(item)
+		issue += len(issue_data.keys())
+		print "ISSUE: " + str(len(issue_data.keys()))
+		milestone_data = read.get_milestones(item)
+		milestone += len(milestone_data)
+		print "milestone: " + str(len(milestone_data))
+		comment_data = read.get_comments(item)
+		comment += len(comment_data)
+		print "comment: " + str(len(comment_data))
+		commit_data = read.get_commits(item)
+		commit += len(commit_data)
+		print "commit: " + str(len(commit_data))
+		print
+	print "Total"
+	print "ISSUE: " + str(issue)
+	print "commit: " + str(commit)
+	print "comment: " + str(comment)
+	print "milestone: " + str(milestone)
+	print
+
+
 if __name__ == "__main__":
+	count_stats()
 	process_1()
 	process_2()
 	process_3()

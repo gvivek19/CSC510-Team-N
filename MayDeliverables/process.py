@@ -220,8 +220,32 @@ def count_stats():
 	print "milestone: " + str(milestone)
 	print
 
+# early_detection
+def early_det():
+	for item in files:
+		commits = read.get_commits(item)
+		c_dict = {}
+		r_dict = {}
+		for commit in commits:
+			if commit["user"] not in r_dict:
+				r_dict[commit["user"]] = []
+			tt = datetime.fromtimestamp(commit["time"]).strftime('%m/%d')
+			if tt in c_dict:
+				c_dict[tt][1].append(commit["user"])
+			else:
+				c_dict[tt] = [commit["time"], [commit["user"]]]
+
+		c_dict = c_dict.items()
+		c_dict = sorted(c_dict, key=lambda x:x[1][0])
+		for x in c_dict:
+			for u in r_dict.keys():
+				c = sum([1 for y in x[1][1] if y==u])
+				r_dict[u].append(c)
+		graph.multiple_lines(r_dict, "Commits in project "+item, [x[0] for x in c_dict])
+
 
 if __name__ == "__main__":
+	early_det()
 	count_stats()
 	process_1()
 	process_2()

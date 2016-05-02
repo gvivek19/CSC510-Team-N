@@ -14,11 +14,12 @@ def bar_chart(y, x=None, title=None):
 	plt.title(r'$\mathrm{'+title+'}$')
 	plt.show()
 
-def multiple_lines(data, title):
+def multiple_lines(data, title, x):
+	plt.xticks(range(len(x)), x, rotation='vertical')
 	for d in data.keys():
-		plt.plot(sorted(data[d]), label=d)
-	plt.xlabel('Issues')
-	plt.ylabel('Time gap')
+		plt.plot(data[d], label=d)
+	plt.xlabel('Date')
+	plt.ylabel('Commits')
 	plt.legend(loc=2)
 	title = title.replace(" ", "\\ ")
 	plt.title(r'$\mathrm{'+title+'}$')

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Submit</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/bootstrap/jquery-ui.css" rel="stylesheet">
+   <link href="/server/frontend/static/bootstrap/main.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <!--link href="/static/bootstrap/base.css" rel="stylesheet"-->
+
+    <style type="text/css" id="holderjs-style"></style>
+  </head>
+
+  <body>    
+        <div class="row header">
+            <div class='col-md-2'>
+                <div class='logo-main'>SUBMIT</div>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-1">
+               Welcome, <span id="user-name-welcome"></span>
+            </div>
+            <div class="col-md-1">
+               <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-md-2'>
+                <div id="courses-list"></div>
+            </div>
+            <div class="col-md-10">
+                <!-- CONTENT-->
+                <div id="question_heading"> Question</div><div id="comment_button">
+                </div>
+                <div id="question_desc">Question Description:</div><br>
+                <div id="comments">Comments: </div>
+                <div><textarea placeholder="Enter your comment here"></textarea><br><button>Comment</button>
+                </div>
+            </div>
+            </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="/static/lib/jquery-1.12.1.min.js"></script>
+    <script src="/static/bootstrap/bootstrap.min.js"></script>
+    <script src="/static/lib/jquery-ui.js"></script>
+    <script src="/static/js/script.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var data = getCourses();
+            if(data.status) {
+                $.each(data.data, function(item) {
+                    var temp = data.data[item];
+                    var div = document.createElement("div");
+                    div.id = temp.id;
+                    $(div).html(temp.course_code + " : " + temp.course_name);
+                    $("#courses-list").append(div);
+                });
+            }
+        });
+    </script>
+  
+ </body>
+ 
+</html>
